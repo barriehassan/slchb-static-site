@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SLCHB - Sierra Leone Creators Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e40af 0%, #065f46 50%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-hover:hover::before {
+            left: 100%;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(135deg, #1e40af, #065f46);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+         <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="nav-link text-blue-400 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" onclick="loadPage('about')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="projects.html" onclick="loadPage('projects')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="creators.html" onclick="loadPage('creators')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                        <a href="contact.html" onclick="loadPage('contact')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <button onclick="loadPage('creator-dashboard')" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</button>
+                        <button onclick="loadPage('login')" class="btn-hover bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Login</button>
+                        <button onclick="loadPage('register')" class="btn-hover bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Register</button>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition-all duration-300">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                <a href="#" class="text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" onclick="loadPage('about')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" onclick="loadPage('projects')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#" onclick="loadPage('creators')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="#" onclick="loadPage('contact')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <button onclick="loadPage('creator-dashboard')" class="w-full text-left bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-2 rounded-lg text-base font-medium">Dashboard</button>
+                <button onclick="loadPage('login')" class="w-full text-left bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-base font-medium">Login</button>
+            </div>
+        </div>
+    </nav>
+    
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gray-900 relative parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1630510590518-6f07f53458e5');">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center animate-fade-in">
+                <div class="sierra-leone-flag mx-auto mb-6 w-16 h-10"></div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 gradient-text">About SLCHB</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Sierra Leone's premier platform for protecting intellectual property rights, 
+                    empowering local creators, and fostering innovation across our beautiful nation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <section class="py-8 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-2 space-y-2 md:space-y-0">
+                <button class="tab-btn active px-6 py-3 rounded-lg font-medium transition-all duration-300" data-tab="mission">Our Mission</button>
+                <button class="tab-btn px-6 py-3 rounded-lg font-medium bg-gray-700 hover:bg-gray-600 transition-all duration-300" data-tab="legal">IPR Legal Framework</button>
+                <button class="tab-btn px-6 py-3 rounded-lg font-medium bg-gray-700 hover:bg-gray-600 transition-all duration-300" data-tab="how-it-works">How It Works</button>
+                <button class="tab-btn px-6 py-3 rounded-lg font-medium bg-gray-700 hover:bg-gray-600 transition-all duration-300" data-tab="team">Our Team</button>
+                <button class="tab-btn px-6 py-3 rounded-lg font-medium bg-gray-700 hover:bg-gray-600 transition-all duration-300" data-tab="impact">Our Impact</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Content -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Mission Tab -->
+            <div id="mission" class="tab-content active">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                    <div>
+                        <h2 class="text-4xl font-bold mb-6 gradient-text">Our Mission</h2>
+                        <p class="text-lg text-gray-300 mb-6">
+                            In Sierra Leone's rapidly evolving digital landscape, intellectual property protection has become crucial for our creators, innovators, and entrepreneurs. SLCHB was founded to bridge this gap using cutting-edge blockchain technology, providing our local talent with the same level of IP protection available anywhere in the world.
+                        </p>
+                        <p class="text-lg text-gray-300 mb-6">
+                            We believe every Sierra Leonean creator deserves to have their ideas protected, their innovations recognized, and their contributions valued. From Freetown's bustling tech scene to rural innovations, we're here to protect and empower.
+                        </p>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="text-sm font-medium">Protection</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="text-sm font-medium">Community</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                    <i data-lucide="award" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="text-sm font-medium">Recognition</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.pexels.com/photos/9660720/pexels-photo-9660720.jpeg" alt="Sierra Leone Creator" class="rounded-xl shadow-2xl w-full h-96 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent rounded-xl"></div>
+                        <div class="absolute bottom-6 left-6 right-6">
+                            <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="sierra-leone-flag"></div>
+                                    <div>
+                                        <div class="font-semibold">Empowering Sierra Leone</div>
+                                        <div class="text-sm text-gray-300">Creator by creator, innovation by innovation</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover">
+                        <div class="text-3xl font-bold text-blue-400 mb-2">2022</div>
+                        <div class="text-gray-400">Founded in Freetown</div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover">
+                        <div class="text-3xl font-bold text-green-400 mb-2">15+</div>
+                        <div class="text-gray-400">Districts Covered</div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover">
+                        <div class="text-3xl font-bold text-red-400 mb-2">500+</div>
+                        <div class="text-gray-400">Protected Projects</div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-xl text-center card-hover">
+                        <div class="text-3xl font-bold text-yellow-400 mb-2">99.9%</div>
+                        <div class="text-gray-400">Legal Success Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IPR Legal Framework Tab -->
+            <div id="legal" class="tab-content">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4 gradient-text">Intellectual Property Rights in Sierra Leone</h2>
+                    <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                        Understanding your rights and protection under Sierra Leone law and international frameworks
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                    <div class="bg-gray-800 p-8 rounded-xl">
+                        <div class="flex items-center mb-6">
+                            <img src="https://images.unsplash.com/photo-1593444285553-28163240e3f1" alt="Legal Protection" class="w-16 h-16 object-cover rounded-lg mr-4">
+                            <div>
+                                <h3 class="text-2xl font-semibold gradient-text">Sierra Leone IP Laws</h3>
+                                <p class="text-gray-400">Local legal framework</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>Copyright Act 2011:</strong> Protects literary, artistic, and musical works for the life of the author plus 70 years</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>Patent Act 2010:</strong> Provides 20-year protection for inventions and innovations</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>Trademark Act 2014:</strong> Protects brand names, logos, and distinctive marks</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>Industrial Designs Act:</strong> Covers aesthetic aspects of functional items</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-800 p-8 rounded-xl">
+                        <div class="flex items-center mb-6">
+                            <img src="https://images.unsplash.com/photo-1568952433726-3896e3881c65" alt="International Protection" class="w-16 h-16 object-cover rounded-lg mr-4">
+                            <div>
+                                <h3 class="text-2xl font-semibold gradient-text">International Treaties</h3>
+                                <p class="text-gray-400">Global protection standards</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-3 text-gray-300">
+                            <li class="flex items-start">
+                                <i data-lucide="globe" class="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>WIPO Member:</strong> Sierra Leone is a member of the World Intellectual Property Organization</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="globe" class="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>Berne Convention:</strong> Automatic copyright protection in 179+ countries</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="globe" class="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>Madrid Protocol:</strong> International trademark registration system</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i data-lucide="globe" class="w-5 h-5 text-blue-400 mr-3 mt-0.5 flex-shrink-0"></i>
+                                <span><strong>PCT System:</strong> Patent Cooperation Treaty for international patents</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Legal Process -->
+                <div class="bg-gray-800 rounded-xl p-8">
+                    <h3 class="text-2xl font-semibold mb-6 gradient-text">SLCHB Legal Compliance Process</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-lg">1</span>
+                            </div>
+                            <h4 class="font-semibold mb-2">Digital Registration</h4>
+                            <p class="text-gray-400 text-sm">Submit your work through our secure platform with metadata and creator verification</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-lg">2</span>
+                            </div>
+                            <h4 class="font-semibold mb-2">Blockchain Timestamping</h4>
+                            <p class="text-gray-400 text-sm">Create immutable proof of creation date and authorship on distributed ledger</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-lg">3</span>
+                            </div>
+                            <h4 class="font-semibold mb-2">Legal Certificate</h4>
+                            <p class="text-gray-400 text-sm">Generate legally compliant certificate admissible in Sierra Leone courts</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-white font-bold text-lg">4</span>
+                            </div>
+                            <h4 class="font-semibold mb-2">Ongoing Protection</h4>
+                            <p class="text-gray-400 text-sm">Continuous monitoring and legal support for your protected intellectual property</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works Tab -->
+            <div id="how-it-works" class="tab-content">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4 gradient-text">How SLCHB Protects Your Innovation</h2>
+                    <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                        Advanced blockchain technology meets Sierra Leone's legal framework for comprehensive IP protection
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="text-center">
+                        <div class="relative mb-6">
+                            <img src="https://images.pexels.com/photos/7552372/pexels-photo-7552372.jpeg" alt="Upload Creation" class="w-full h-48 object-cover rounded-xl">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent rounded-xl"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-lg">1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Upload Your Creation</h3>
+                        <p class="text-gray-400">
+                            Submit your ideas, inventions, artistic works, or any intellectual property to our secure, encrypted platform designed for Sierra Leone creators.
+                        </p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="relative mb-6">
+                            <img src="https://images.unsplash.com/photo-1568952433726-3896e3881c65" alt="Blockchain Verification" class="w-full h-48 object-cover rounded-xl">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent rounded-xl"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-lg">2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Blockchain Verification</h3>
+                        <p class="text-gray-400">
+                            Our system creates a cryptographic hash and records it on the blockchain with an immutable timestamp, establishing proof of creation under Sierra Leone law.
+                        </p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="relative mb-6">
+                            <img src="https://images.unsplash.com/photo-1593444285553-28163240e3f1" alt="Legal Protection" class="w-full h-48 object-cover rounded-xl">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent rounded-xl"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-lg">3</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Legal Protection</h3>
+                        <p class="text-gray-400">
+                            Receive a blockchain certificate that serves as legal proof of ownership and creation date, fully compliant with Sierra Leone IP laws.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Technology Stack -->
+                <div class="bg-gray-800 rounded-xl p-8">
+                    <h3 class="text-2xl font-semibold mb-6 gradient-text">Our Technology Stack</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4">Blockchain Infrastructure</h4>
+                            <ul class="space-y-2 text-gray-300">
+                                <li>• Ethereum mainnet for immutable timestamping</li>
+                                <li>• IPFS distributed storage for large files</li>
+                                <li>• Multi-signature security protocols</li>
+                                <li>• Smart contracts for automated protection</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold mb-4">Security Features</h4>
+                            <ul class="space-y-2 text-gray-300">
+                                <li>• 256-bit AES encryption</li>
+                                <li>• Zero-knowledge proof protocols</li>
+                                <li>• Biometric authentication options</li>
+                                <li>• Regular security audits</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Tab -->
+            <div id="team" class="tab-content">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4 gradient-text">Meet Our Sierra Leone Team</h2>
+                    <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                        Our diverse team of Sierra Leonean experts in law, technology, and business working to protect our nation's creativity
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+                    <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                        <img src="https://images.pexels.com/photos/9487235/pexels-photo-9487235.jpeg" alt="CEO" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                        <h3 class="text-xl font-semibold mb-2">Aminata Kamara</h3>
+                        <p class="text-blue-400 mb-2">CEO & Founder</p>
+                        <p class="text-gray-400 text-sm">Former IP lawyer with 12 years experience, University of Sierra Leone Law graduate</p>
+                        <div class="sierra-leone-flag mx-auto mt-3"></div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                        <img src="https://images.pexels.com/photos/5439469/pexels-photo-5439469.jpeg" alt="CTO" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                        <h3 class="text-xl font-semibold mb-2">Mohamed Turay</h3>
+                        <p class="text-green-400 mb-2">CTO</p>
+                        <p class="text-gray-400 text-sm">Blockchain architect and cybersecurity expert, Fourah Bay College Computer Science</p>
+                        <div class="sierra-leone-flag mx-auto mt-3"></div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                        <img src="https://images.unsplash.com/photo-1553465750-c07c91e2ad84" alt="Legal Head" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                        <h3 class="text-xl font-semibold mb-2">Ibrahim Sesay</h3>
+                        <p class="text-red-400 mb-2">Head of Legal</p>
+                        <p class="text-gray-400 text-sm">International IP law specialist, Sierra Leone Bar Association certified</p>
+                        <div class="sierra-leone-flag mx-auto mt-3"></div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                        <img src="https://images.unsplash.com/photo-1621959614020-e12047c380ba" alt="Community Head" class="w-24 h-24 rounded-full mx-auto mb-4 object-cover">
+                        <h3 class="text-xl font-semibold mb-2">Fatima Bangura</h3>
+                        <p class="text-yellow-400 mb-2">Head of Community</p>
+                        <p class="text-gray-400 text-sm">Creator advocate and community builder, connecting creators across all districts</p>
+                        <div class="sierra-leone-flag mx-auto mt-3"></div>
+                    </div>
+                </div>
+
+                <!-- Advisory Board -->
+                <div class="bg-gray-800 rounded-xl p-8">
+                    <h3 class="text-2xl font-semibold mb-6 gradient-text">Advisory Board</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i data-lucide="scale" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h4 class="font-semibold">Hon. Justice Sarah Kargbo</h4>
+                            <p class="text-gray-400 text-sm">High Court Judge, IP Law Expert</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i data-lucide="cpu" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h4 class="font-semibold">Dr. Abu Bakarr Kargbo</h4>
+                            <p class="text-gray-400 text-sm">Tech Innovation Advisor</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <i data-lucide="briefcase" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <h4 class="font-semibold">Patricia Johnson</h4>
+                            <p class="text-gray-400 text-sm">Creative Industries Advisor</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact Tab -->
+            <div id="impact" class="tab-content">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4 gradient-text">Our Impact on Sierra Leone</h2>
+                    <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                        Empowering creators, protecting innovations, and building Sierra Leone's creative economy
+                    </p>
+                </div>
+
+                <!-- Impact Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
+                    <div class="bg-gray-800 p-8 rounded-xl text-center card-hover">
+                        <div class="sierra-leone-flag mx-auto mb-4 w-12 h-8"></div>
+                        <div class="text-4xl font-bold text-blue-400 mb-2">500+</div>
+                        <div class="text-gray-300 font-medium">Protected Projects</div>
+                        <div class="text-gray-500 text-sm mt-2">Across all 16 districts</div>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl text-center card-hover">
+                        <div class="w-12 h-12 bg-green-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-green-400 mb-2">200+</div>
+                        <div class="text-gray-300 font-medium">Active Creators</div>
+                        <div class="text-gray-500 text-sm mt-2">From Freetown to Bo</div>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl text-center card-hover">
+                        <div class="w-12 h-12 bg-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="award" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-red-400 mb-2">50+</div>
+                        <div class="text-gray-300 font-medium">Legal Victories</div>
+                        <div class="text-gray-500 text-sm mt-2">IP disputes resolved</div>
+                    </div>
+                    <div class="bg-gray-800 p-8 rounded-xl text-center card-hover">
+                        <div class="w-12 h-12 bg-yellow-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="text-4xl font-bold text-yellow-400 mb-2">$2M+</div>
+                        <div class="text-gray-300 font-medium">Economic Impact</div>
+                        <div class="text-gray-500 text-sm mt-2">Creator revenue protected</div>
+                    </div>
+                </div>
+
+                <!-- Success Stories -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 rounded-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <img src="https://images.pexels.com/photos/7552359/pexels-photo-7552359.jpeg" alt="Success Story" class="w-16 h-16 rounded-lg object-cover mr-4">
+                            <div>
+                                <h3 class="text-xl font-semibold">Rural Innovation Success</h3>
+                                <div class="sierra-leone-flag mr-2 inline-block"></div>
+                                <span class="text-gray-400">Makeni District</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            "SLCHB helped me protect my solar-powered water purification system. Now I have investors interested and my innovation is legally secure. This wouldn't have been possible without their platform."
+                        </p>
+                        <div class="text-right">
+                            <span class="text-blue-400 font-medium">- Mariama Kanu, Inventor</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-800 rounded-xl p-8">
+                        <div class="flex items-center mb-6">
+                            <img src="https://images.unsplash.com/photo-1717913491672-ec2c1921e81f" alt="Creative Success" class="w-16 h-16 rounded-lg object-cover mr-4">
+                            <div>
+                                <h3 class="text-xl font-semibold">Creative Arts Protection</h3>
+                                <div class="sierra-leone-flag mr-2 inline-block"></div>
+                                <span class="text-gray-400">Western Area</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">
+                            "My traditional Krio designs were being copied without permission. SLCHB's blockchain protection helped me win a legal case and now I license my work properly."
+                        </p>
+                        <div class="text-right">
+                            <span class="text-green-400 font-medium">- Abdul Rahman, Artist</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-800 relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/20 via-green-900/20 to-red-900/20"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+            <div class="sierra-leone-flag mx-auto mb-6"></div>
+            <h2 class="text-4xl font-bold mb-4">Ready to Join Sierra Leone's Creative Revolution?</h2>
+            <p class="text-xl text-gray-400 mb-8">
+                Be part of the movement protecting and empowering Sierra Leone's innovators and creators
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/register.html" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold">
+                    Join SLCHB Today
+                </a>
+                <a href="/contact.html" class="btn-hover bg-transparent border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-lg text-lg font-semibold">
+                    Contact Our Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                    <p class="text-gray-400 mt-4">
+                        Protecting intellectual property rights with cutting-edge blockchain technology.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Platform</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/projects.html" class="hover:text-purple-400">Projects</a></li>
+                        <li><a href="/creators.html" class="hover:text-purple-400">Creators</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Security</a></li>
+                        <li><a href="#" class="hover:text-purple-400">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about.html" class="hover:text-purple-400">About</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Blog</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Careers</a></li>
+                        <li><a href="/contact.html" class="hover:text-purple-400">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-purple-400">Help Center</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 IPR Guard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetTab = this.dataset.tab;
+                
+                // Update active tab button
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                });
+                this.classList.add('active');
+                this.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                
+                // Show/hide tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.card-hover');
+            animateElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

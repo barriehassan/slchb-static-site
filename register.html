@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SLCHB Sierra Leone Creators Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e40af 0%, #065f46 50%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .register-bg {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/3194521/pexels-photo-3194521.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .sierra-leone-flag {
+            display: inline-block;
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+            background: linear-gradient(to bottom, #1e40af 33.33%, #ffffff 33.33%, #ffffff 66.66%, #065f46 66.66%);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-right: 8px;
+        }
+        
+        .form-input {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .form-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-hover:hover::before {
+            left: 100%;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(15px);
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .step-active {
+            background: linear-gradient(135deg, #1e40af, #065f46);
+        }
+        
+        .step-completed {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen register-bg">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/index.html" class="flex-shrink-0 flex items-center transition-all duration-300 hover:scale-105">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="/login.html" class="text-gray-300 hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                        Login
+                    </a>
+                    <a href="/index.html" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="min-h-screen flex items-center justify-center py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl w-full space-y-8">
+            <div class="glass-effect rounded-2xl p-8 animate-fade-in">
+                <!-- Header -->
+                <div class="text-center mb-8">
+                    <div class="sierra-leone-flag mx-auto mb-4"></div>
+                    <h2 class="text-3xl font-bold gradient-text mb-2">Join SLCHB</h2>
+                    <p class="text-gray-400">Create your account and start protecting your innovations</p>
+                </div>
+
+                <!-- Progress Steps -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="flex items-center space-x-4">
+                        <div class="step-indicator step-active w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                            1
+                        </div>
+                        <div class="w-16 h-1 bg-gray-600"></div>
+                        <div class="step-indicator w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-sm font-bold">
+                            2
+                        </div>
+                        <div class="w-16 h-1 bg-gray-600"></div>
+                        <div class="step-indicator w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-sm font-bold">
+                            3
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Registration -->
+                <div class="space-y-3 mb-6">
+                    <button class="btn-hover w-full flex items-center justify-center px-4 py-3 border border-gray-600 rounded-lg text-white bg-gray-800 hover:bg-gray-700">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" class="w-5 h-5 mr-3">
+                        Continue with Google
+                    </button>
+                    <button class="btn-hover w-full flex items-center justify-center px-4 py-3 border border-gray-600 rounded-lg text-white bg-gray-800 hover:bg-gray-700">
+                        <i data-lucide="facebook" class="w-5 h-5 mr-3 text-blue-500"></i>
+                        Continue with Facebook
+                    </button>
+                </div>
+
+                <!-- Divider -->
+                <div class="relative mb-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-600"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-gray-800 text-gray-400">Or register with email</span>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <form class="space-y-6" onsubmit="handleRegister(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium text-gray-300 mb-2">
+                                First Name *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input 
+                                    id="firstName" 
+                                    name="firstName" 
+                                    type="text" 
+                                    required
+                                    class="form-input appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-600 placeholder-gray-400 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="First name"
+                                />
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium text-gray-300 mb-2">
+                                Last Name *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input 
+                                    id="lastName" 
+                                    name="lastName" 
+                                    type="text" 
+                                    required
+                                    class="form-input appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-600 placeholder-gray-400 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Last name"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+                            Email Address *
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <input 
+                                id="email" 
+                                name="email" 
+                                type="email" 
+                                required
+                                class="form-input appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-600 placeholder-gray-400 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Enter your email"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-300 mb-2">
+                                Phone Number
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="phone" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input 
+                                    id="phone" 
+                                    name="phone" 
+                                    type="tel" 
+                                    class="form-input appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-600 placeholder-gray-400 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="+232 XX XXX XXXX"
+                                />
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="district" class="block text-sm font-medium text-gray-300 mb-2">
+                                District *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="map-pin" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <select 
+                                    id="district" 
+                                    name="district" 
+                                    required
+                                    class="form-input appearance-none relative block w-full pl-10 pr-8 py-3 border border-gray-600 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="">Select your district</option>
+                                    <option value="western-area">Western Area</option>
+                                    <option value="bo">Bo</option>
+                                    <option value="bonthe">Bonthe</option>
+                                    <option value="moyamba">Moyamba</option>
+                                    <option value="pujehun">Pujehun</option>
+                                    <option value="kenema">Kenema</option>
+                                    <option value="kailahun">Kailahun</option>
+                                    <option value="kono">Kono</option>
+                                    <option value="bombali">Bombali</option>
+                                    <option value="kambia">Kambia</option>
+                                    <option value="koinadugu">Koinadugu</option>
+                                    <option value="port-loko">Port Loko</option>
+                                    <option value="tonkolili">Tonkolili</option>
+                                    <option value="karene">Karene</option>
+                                    <option value="falaba">Falaba</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="creatorType" class="block text-sm font-medium text-gray-300 mb-2">
+                            Creator Type *
+                        </label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="tech" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Tech/Developer</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="artist" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Artist/Designer</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="writer" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Writer/Blogger</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="entrepreneur" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Entrepreneur</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="musician" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Musician</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="filmmaker" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Filmmaker</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="inventor" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Inventor</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="creatorType" value="other" class="text-blue-600 focus:ring-blue-500">
+                                <span class="text-sm">Other</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-300 mb-2">
+                                Password *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input 
+                                    id="password" 
+                                    name="password" 
+                                    type="password" 
+                                    required
+                                    class="form-input appearance-none relative block w-full pl-10 pr-10 py-3 border border-gray-600 placeholder-gray-400 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Create password"
+                                />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <button type="button" onclick="togglePassword('password')" class="text-gray-400 hover:text-white">
+                                        <i data-lucide="eye" id="password-toggle" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-2">
+                                Confirm Password *
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                                </div>
+                                <input 
+                                    id="confirmPassword" 
+                                    name="confirmPassword" 
+                                    type="password" 
+                                    required
+                                    class="form-input appearance-none relative block w-full pl-10 pr-10 py-3 border border-gray-600 placeholder-gray-400 text-white rounded-lg bg-gray-700 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Confirm password"
+                                />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <button type="button" onclick="togglePassword('confirmPassword')" class="text-gray-400 hover:text-white">
+                                        <i data-lucide="eye" id="confirm-password-toggle" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input 
+                            id="terms" 
+                            name="terms" 
+                            type="checkbox" 
+                            required
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
+                        />
+                        <label for="terms" class="ml-2 block text-sm text-gray-300">
+                            I agree to the <a href="#" class="text-blue-400 hover:text-blue-300">Terms of Service</a> and <a href="#" class="text-blue-400 hover:text-blue-300">Privacy Policy</a>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input 
+                            id="newsletter" 
+                            name="newsletter" 
+                            type="checkbox" 
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded bg-gray-700"
+                        />
+                        <label for="newsletter" class="ml-2 block text-sm text-gray-300">
+                            Subscribe to SLCHB newsletter for updates and Sierra Leone creator spotlights
+                        </label>
+                    </div>
+
+                    <div>
+                        <button 
+                            type="submit"
+                            class="btn-hover group relative w-full flex justify-center py-3 px-4 border border-transparent text-white bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-lg font-medium"
+                        >
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <i data-lucide="user-plus" class="w-5 h-5 text-white"></i>
+                            </span>
+                            Create SLCHB Account
+                        </button>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-gray-400">
+                            Already have an account? 
+                            <a href="/login.html" class="font-medium text-blue-400 hover:text-blue-300 transition-colors">
+                                Sign in here
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Benefits -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                <div class="glass-effect rounded-lg p-4 text-center">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mx-auto mb-2"></i>
+                    <div class="text-sm font-medium text-white">IP Protection</div>
+                    <div class="text-xs text-gray-400">Secure your innovations</div>
+                </div>
+                <div class="glass-effect rounded-lg p-4 text-center">
+                    <i data-lucide="users" class="w-8 h-8 text-green-400 mx-auto mb-2"></i>
+                    <div class="text-sm font-medium text-white">Local Network</div>
+                    <div class="text-xs text-gray-400">Connect with SL creators</div>
+                </div>
+                <div class="glass-effect rounded-lg p-4 text-center">
+                    <i data-lucide="award" class="w-8 h-8 text-yellow-400 mx-auto mb-2"></i>
+                    <div class="text-sm font-medium text-white">Recognition</div>
+                    <div class="text-xs text-gray-400">Showcase your work</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(inputId === 'password' ? 'password-toggle' : 'confirm-password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+        
+        // Handle registration form submission
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i data-lucide="loader" class="w-5 h-5 animate-spin mr-2"></i> Creating account...';
+            submitBtn.disabled = true;
+            
+            // Simulate registration process
+            setTimeout(() => {
+                alert('Registration successful! Welcome to SLCHB! Redirecting to dashboard...');
+                window.location.href = '/creator-dashboard.html';
+            }, 3000);
+        }
+        
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            const colors = ['text-red-400', 'text-yellow-400', 'text-blue-400', 'text-green-400'];
+            const strengthText = ['Weak', 'Fair', 'Good', 'Strong'];
+            
+            // You can add a strength indicator here
+        });
+        
+        // Add input animations
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.classList.add('scale-105');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.classList.remove('scale-105');
+            });
+        });
+    </script>
+</body>
+</html>

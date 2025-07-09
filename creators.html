@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creators - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.8);
+        }
+        
+        .filter-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="nav-link text-blue-400 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" onclick="loadPage('about')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="projects.html" onclick="loadPage('projects')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="creators.html" onclick="loadPage('creators')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                        <a href="contact.html" onclick="loadPage('contact')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <button onclick="loadPage('creator-dashboard')" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</button>
+                        <button onclick="loadPage('login')" class="btn-hover bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Login</button>
+                        <button onclick="loadPage('register')" class="btn-hover bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Register</button>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition-all duration-300">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                <a href="#" class="text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" onclick="loadPage('about')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" onclick="loadPage('projects')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#" onclick="loadPage('creators')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="#" onclick="loadPage('contact')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <button onclick="loadPage('creator-dashboard')" class="w-full text-left bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-2 rounded-lg text-base font-medium">Dashboard</button>
+                <button onclick="loadPage('login')" class="w-full text-left bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-base font-medium">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-32 pb-20 bg-gray-900 relative parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1630510590518-6f07f53458e5');">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center animate-fade-in">
+                <div class="sierra-leone-flag mx-auto mb-6 w-16 h-10"></div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 gradient-text">SLCHB Verified Creators</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                   Discover talented creators and innovators who are 
+                   protecting their intellectual property with our platform.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Search and Filter Section -->
+    <section class="py-8 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-6 items-center">
+                <!-- Search Bar -->
+                <div class="flex-1 relative">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-3 top-3 w-5 h-5 text-gray-400"></i>
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Search creators by name, skill, or location..."
+                            class="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                    </div>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn filter-active px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="all">
+                        All Creators
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="developer">
+                        Developers
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="designer">
+                        Designers
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="writer">
+                        Writers
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="musician">
+                        Musicians
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="entrepreneur">
+                        Entrepreneurs
+                    </button>
+                </div>
+                
+                <!-- Sort Dropdown -->
+                <div class="relative">
+                    <select id="sort-select" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="newest">Newest First</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="projects">Most Projects</option>
+                        <option value="followers">Most Followers</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Creators -->
+    <section class="py-12 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold mb-8 ">Featured Creators</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- Featured Creator 1 -->
+                <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="user" class="w-12 h-12 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Sarah Tech</h3>
+                    <p class="text-purple-400 mb-2">AI Developer</p>
+                    <p class="text-gray-400 text-sm mb-4">Specializing in machine learning and smart home automation systems</p>
+                    <div class="grid grid-cols-3 gap-4 text-center mb-4">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-400">15</div>
+                            <div class="text-gray-400 text-xs">Projects</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-400">1.2K</div>
+                            <div class="text-gray-400 text-xs">Followers</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-400">4.9</div>
+                            <div class="text-gray-400 text-xs">Rating</div>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Featured Creator 2 -->
+                <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-pink-600 to-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="palette" class="w-12 h-12 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Alex Designer</h3>
+                    <p class="text-pink-400 mb-2">Digital Artist</p>
+                    <p class="text-gray-400 text-sm mb-4">Creating stunning digital art and futuristic design concepts</p>
+                    <div class="grid grid-cols-3 gap-4 text-center mb-4">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-400">28</div>
+                            <div class="text-gray-400 text-xs">Projects</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-400">2.8K</div>
+                            <div class="text-gray-400 text-xs">Followers</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-400">4.8</div>
+                            <div class="text-gray-400 text-xs">Rating</div>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Featured Creator 3 -->
+                <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                    <div class="w-24 h-24 bg-gradient-to-br from-green-600 to-teal-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="code" class="w-12 h-12 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Mike Trader</h3>
+                    <p class="text-green-400 mb-2">Blockchain Developer</p>
+                    <p class="text-gray-400 text-sm mb-4">Building innovative trading algorithms and DeFi solutions</p>
+                    <div class="grid grid-cols-3 gap-4 text-center mb-4">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-400">12</div>
+                            <div class="text-gray-400 text-xs">Projects</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-400">1.8K</div>
+                            <div class="text-gray-400 text-xs">Followers</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-400">4.7</div>
+                            <div class="text-gray-400 text-xs">Rating</div>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                        View Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- All Creators Grid -->
+    <section class="py-12 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold ">All Creators</h2>
+                <div class="text-gray-400">
+                    <span id="creator-count">156</span> creators found
+                </div>
+            </div>
+            
+            <div id="creators-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Creator Card 1 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="writer">
+                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-600 to-orange-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="pen-tool" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Emma Writer</h3>
+                    <p class="text-yellow-400 text-sm mb-2">Content Writer</p>
+                    <p class="text-gray-400 text-xs mb-4">Future of work expert</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">8</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">650</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 2 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="musician">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="music" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">DJ Nature</h3>
+                    <p class="text-indigo-400 text-sm mb-2">Electronic Music Producer</p>
+                    <p class="text-gray-400 text-xs mb-4">Nature-inspired soundscapes</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">5</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">890</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 3 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="entrepreneur">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="trending-up" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Green Entrepreneur</h3>
+                    <p class="text-blue-400 text-sm mb-2">Sustainable Business Expert</p>
+                    <p class="text-gray-400 text-xs mb-4">Eco-friendly solutions</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">6</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">1.1K</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 4 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="developer">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-600 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="smartphone" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Tech Innovator</h3>
+                    <p class="text-red-400 text-sm mb-2">Mobile App Developer</p>
+                    <p class="text-gray-400 text-xs mb-4">AR/VR applications</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">11</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">2.3K</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 5 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="designer">
+                    <div class="w-16 h-16 bg-gradient-to-br from-teal-600 to-green-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="layers" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Creative Designer</h3>
+                    <p class="text-teal-400 text-sm mb-2">UX/UI Designer</p>
+                    <p class="text-gray-400 text-xs mb-4">User experience expert</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">19</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">1.5K</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-teal-600 hover:bg-teal-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 6 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="developer">
+                    <div class="w-16 h-16 bg-gradient-to-br from-violet-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="database" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Data Scientist</h3>
+                    <p class="text-violet-400 text-sm mb-2">AI/ML Expert</p>
+                    <p class="text-gray-400 text-xs mb-4">Predictive analytics</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">7</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">980</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-violet-600 hover:bg-violet-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 7 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="writer">
+                    <div class="w-16 h-16 bg-gradient-to-br from-amber-600 to-orange-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="book" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Story Teller</h3>
+                    <p class="text-amber-400 text-sm mb-2">Fiction Writer</p>
+                    <p class="text-gray-400 text-xs mb-4">Sci-fi author</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">13</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">2.1K</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-amber-600 hover:bg-amber-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+                
+                <!-- Creator Card 8 -->
+                <div class="creator-card bg-gray-900 rounded-xl p-6 text-center card-hover" data-category="entrepreneur">
+                    <div class="w-16 h-16 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                        <i data-lucide="lightbulb" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Innovation Lead</h3>
+                    <p class="text-emerald-400 text-sm mb-2">Product Strategist</p>
+                    <p class="text-gray-400 text-xs mb-4">Startup mentor</p>
+                    <div class="flex justify-center space-x-4 text-xs mb-4">
+                        <div>
+                            <span class="text-purple-400 font-semibold">9</span>
+                            <span class="text-gray-400">Projects</span>
+                        </div>
+                        <div>
+                            <span class="text-blue-400 font-semibold">1.4K</span>
+                            <span class="text-gray-400">Followers</span>
+                        </div>
+                    </div>
+                    <button onclick="window.location.href='/creator-profile.html'" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-sm">
+                        View Profile
+                    </button>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="load-more" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium">
+                    Load More Creators
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                    <p class="text-gray-400 mt-4">
+                        Protecting intellectual property rights with cutting-edge blockchain technology.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Platform</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/projects.html" class="hover:text-purple-400">Projects</a></li>
+                        <li><a href="/creators.html" class="hover:text-purple-400">Creators</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Security</a></li>
+                        <li><a href="#" class="hover:text-purple-400">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about.html" class="hover:text-purple-400">About</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Blog</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Careers</a></li>
+                        <li><a href="/contact.html" class="hover:text-purple-400">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-purple-400">Help Center</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 IPR Guard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const creatorCards = document.querySelectorAll('.creator-card');
+        const searchInput = document.getElementById('search-input');
+        const sortSelect = document.getElementById('sort-select');
+        const creatorCount = document.getElementById('creator-count');
+        
+        // Filter by category
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                // Update active button
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('filter-active');
+                    btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                });
+                this.classList.add('filter-active');
+                this.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                
+                // Filter creators
+                let visibleCount = 0;
+                creatorCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                creatorCount.textContent = visibleCount;
+            });
+        });
+        
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let visibleCount = 0;
+            
+            creatorCards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                const role = card.querySelector('.text-sm').textContent.toLowerCase();
+                const description = card.querySelector('.text-xs').textContent.toLowerCase();
+                
+                if (name.includes(searchTerm) || role.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            creatorCount.textContent = visibleCount;
+        });
+        
+        // Sort functionality
+        sortSelect.addEventListener('change', function() {
+            const sortBy = this.value;
+            const grid = document.getElementById('creators-grid');
+            const cards = Array.from(creatorCards);
+            
+            cards.sort((a, b) => {
+                switch(sortBy) {
+                    case 'projects':
+                        return parseInt(b.querySelector('.text-purple-400').textContent) - 
+                               parseInt(a.querySelector('.text-purple-400').textContent);
+                    case 'followers':
+                        return parseInt(b.querySelector('.text-blue-400').textContent.replace('K', '00').replace('.', '')) - 
+                               parseInt(a.querySelector('.text-blue-400').textContent.replace('K', '00').replace('.', ''));
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Re-append sorted cards
+            cards.forEach(card => grid.appendChild(card));
+        });
+        
+        // Load more functionality
+        document.getElementById('load-more').addEventListener('click', function() {
+            this.textContent = 'Loading...';
+            setTimeout(() => {
+                this.textContent = 'Load More Creators';
+                // Add more creator cards here
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

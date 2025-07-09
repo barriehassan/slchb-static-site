@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.9);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-pending { background: #fbbf24; color: #78350f; }
+        .status-approved { background: #10b981; color: #064e3b; }
+        .status-rejected { background: #ef4444; color: #7f1d1d; }
+        .status-under-review { background: #3b82f6; color: #1e3a8a; }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 fixed h-full z-40">
+            <div class="p-6">
+                <div class="flex items-center mb-8">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-purple-400 mr-2"></i>
+                    <span class="text-xl font-bold gradient-text">IPR Guard</span>
+                </div>
+                
+                <div class="mb-6">
+                    <span class="text-xs text-red-400 font-semibold bg-red-900 px-2 py-1 rounded">ADMIN</span>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="#" class="sidebar-link sidebar-active flex items-center space-x-3 px-4 py-3 rounded-lg text-white" data-section="overview">
+                        <i data-lucide="bar-chart" class="w-5 h-5"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="users">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                        <span>Users</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="projects">
+                        <i data-lucide="folder" class="w-5 h-5"></i>
+                        <span>Projects</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="reports">
+                        <i data-lucide="flag" class="w-5 h-5"></i>
+                        <span>Reports & Abuse</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="analytics">
+                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="security">
+                        <i data-lucide="shield" class="w-5 h-5"></i>
+                        <span>Security</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="settings">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <div class="absolute bottom-6 left-6 right-6">
+                <a href="/index.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <span>Back to Site</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 ml-64">
+            <!-- Top Navigation -->
+            <nav class="navbar-blur border-b border-gray-800 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold" id="page-title">Admin Overview</h1>
+                        <p class="text-gray-400" id="page-subtitle">System administration and monitoring</p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2 bg-red-900 px-3 py-1 rounded-lg">
+                            <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                            <span class="text-red-400 text-sm font-medium">5 Alerts</span>
+                        </div>
+                        <button class="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700 relative">
+                            <i data-lucide="bell" class="w-5 h-5"></i>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                        </button>
+                        <div class="w-8 h-8 bg-gradient-to-br from-red-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <i data-lucide="user-check" class="w-4 h-4 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Content Area -->
+            <div class="p-6">
+                <!-- Overview Section -->
+                <div id="overview-section" class="section-content">
+                    <!-- System Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total Users</p>
+                                    <p class="text-3xl font-bold text-blue-400">5,847</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">+12%</span>
+                                <span class="text-gray-400 ml-1">vs last month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Protected Projects</p>
+                                    <p class="text-3xl font-bold text-purple-400">10,234</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">+8%</span>
+                                <span class="text-gray-400 ml-1">this month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Pending Reports</p>
+                                    <p class="text-3xl font-bold text-yellow-400">23</p>
+                                </div>
+                                <div class="w-12 h-12 bg-yellow-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="flag" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-red-400">+5</span>
+                                <span class="text-gray-400 ml-1">needs attention</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">System Health</p>
+                                    <p class="text-3xl font-bold text-green-400">99.9%</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">Optimal</span>
+                                <span class="text-gray-400 ml-1">performance</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activities and Alerts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-xl font-semibold mb-4">Recent System Activities</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="user-plus" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">New user registration: tech@innovator.com</p>
+                                        <p class="text-xs text-gray-400">2 minutes ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+                                    <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="upload" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Project protected: "Blockchain Trading Algorithm"</p>
+                                        <p class="text-xs text-gray-400">15 minutes ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-gray-700 rounded-lg">
+                                    <div class="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="flag" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">New report filed for project #1234</p>
+                                        <p class="text-xs text-gray-400">1 hour ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                Security Alerts
+                                <span class="ml-2 px-2 py-1 bg-red-600 text-white text-xs rounded-full">5</span>
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-3 bg-red-900 border border-red-700 rounded-lg">
+                                    <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="alert-triangle" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-red-400">Multiple failed login attempts from IP: 192.168.1.100</p>
+                                        <p class="text-xs text-red-300">5 minutes ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-yellow-900 border border-yellow-700 rounded-lg">
+                                    <div class="w-8 h-8 bg-yellow-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="alert-circle" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-yellow-400">Unusual upload activity detected</p>
+                                        <p class="text-xs text-yellow-300">30 minutes ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3 p-3 bg-blue-900 border border-blue-700 rounded-lg">
+                                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="info" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-blue-400">System backup completed successfully</p>
+                                        <p class="text-xs text-blue-300">2 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions Dashboard -->
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-lg flex flex-col items-center space-y-2">
+                                <i data-lucide="user-check" class="w-6 h-6"></i>
+                                <span class="text-sm">Verify User</span>
+                            </button>
+                            <button class="bg-red-600 hover:bg-red-700 text-white p-4 rounded-lg flex flex-col items-center space-y-2">
+                                <i data-lucide="ban" class="w-6 h-6"></i>
+                                <span class="text-sm">Block User</span>
+                            </button>
+                            <button class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg flex flex-col items-center space-y-2">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                                <span class="text-sm">Approve Project</span>
+                            </button>
+                            <button class="bg-yellow-600 hover:bg-yellow-700 text-white p-4 rounded-lg flex flex-col items-center space-y-2">
+                                <i data-lucide="message-circle" class="w-6 h-6"></i>
+                                <span class="text-sm">Send Notice</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-2xl font-semibold">User Management</h3>
+                            <div class="flex items-center space-x-4">
+                                <input 
+                                    type="search" 
+                                    placeholder="Search users..."
+                                    class="bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                />
+                                <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+                                    Add User
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-700">
+                                        <th class="text-left py-3 text-gray-400">User</th>
+                                        <th class="text-left py-3 text-gray-400">Email</th>
+                                        <th class="text-left py-3 text-gray-400">Projects</th>
+                                        <th class="text-left py-3 text-gray-400">Status</th>
+                                        <th class="text-left py-3 text-gray-400">Joined</th>
+                                        <th class="text-left py-3 text-gray-400">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-700">
+                                    <tr>
+                                        <td class="py-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-sm font-semibold">ST</span>
+                                                </div>
+                                                <span class="font-medium">Sarah Tech</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 text-gray-400">sarah@techcorp.com</td>
+                                        <td class="py-4">15</td>
+                                        <td class="py-4">
+                                            <span class="status-badge status-approved">Verified</span>
+                                        </td>
+                                        <td class="py-4 text-gray-400">Jan 2024</td>
+                                        <td class="py-4">
+                                            <button class="text-purple-400 hover:text-purple-300 mr-2">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300">Block</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-8 h-8 bg-gradient-to-br from-green-600 to-teal-600 rounded-full flex items-center justify-center">
+                                                    <span class="text-white text-sm font-semibold">MT</span>
+                                                </div>
+                                                <span class="font-medium">Mike Trader</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 text-gray-400">mike@blockchain.dev</td>
+                                        <td class="py-4">12</td>
+                                        <td class="py-4">
+                                            <span class="status-badge status-under-review">Under Review</span>
+                                        </td>
+                                        <td class="py-4 text-gray-400">Feb 2024</td>
+                                        <td class="py-4">
+                                            <button class="text-purple-400 hover:text-purple-300 mr-2">Edit</button>
+                                            <button class="text-red-400 hover:text-red-300">Block</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Section -->
+                <div id="reports-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-6">Reports & Abuse Management</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-red-900 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-red-400">23</div>
+                                <div class="text-red-300 text-sm">Pending Reports</div>
+                            </div>
+                            <div class="bg-yellow-900 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-yellow-400">15</div>
+                                <div class="text-yellow-300 text-sm">Under Review</div>
+                            </div>
+                            <div class="bg-green-900 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-green-400">89</div>
+                                <div class="text-green-300 text-sm">Resolved</div>
+                            </div>
+                            <div class="bg-gray-700 p-4 rounded-lg text-center">
+                                <div class="text-2xl font-bold text-gray-400">5</div>
+                                <div class="text-gray-300 text-sm">Dismissed</div>
+                            </div>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-700">
+                                        <th class="text-left py-3 text-gray-400">Report ID</th>
+                                        <th class="text-left py-3 text-gray-400">Project</th>
+                                        <th class="text-left py-3 text-gray-400">Reason</th>
+                                        <th class="text-left py-3 text-gray-400">Reporter</th>
+                                        <th class="text-left py-3 text-gray-400">Status</th>
+                                        <th class="text-left py-3 text-gray-400">Date</th>
+                                        <th class="text-left py-3 text-gray-400">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-700">
+                                    <tr>
+                                        <td class="py-4 font-mono text-sm text-purple-400">#RPT-001</td>
+                                        <td class="py-4">AI Smart Home System</td>
+                                        <td class="py-4">Copyright infringement</td>
+                                        <td class="py-4">anonymous@user.com</td>
+                                        <td class="py-4">
+                                            <span class="status-badge status-pending">Pending</span>
+                                        </td>
+                                        <td class="py-4 text-gray-400">2024-01-15</td>
+                                        <td class="py-4">
+                                            <button class="text-green-400 hover:text-green-300 mr-2">Review</button>
+                                            <button class="text-red-400 hover:text-red-300">Dismiss</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4 font-mono text-sm text-purple-400">#RPT-002</td>
+                                        <td class="py-4">Digital Art Collection</td>
+                                        <td class="py-4">Inappropriate content</td>
+                                        <td class="py-4">reporter@domain.com</td>
+                                        <td class="py-4">
+                                            <span class="status-badge status-under-review">Under Review</span>
+                                        </td>
+                                        <td class="py-4 text-gray-400">2024-01-14</td>
+                                        <td class="py-4">
+                                            <button class="text-green-400 hover:text-green-300 mr-2">Review</button>
+                                            <button class="text-red-400 hover:text-red-300">Dismiss</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections would go here with similar structure -->
+                <div id="projects-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">Project Management</h3>
+                        <p class="text-gray-400">Manage and monitor all protected projects in the system.</p>
+                    </div>
+                </div>
+
+                <div id="analytics-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">System Analytics</h3>
+                        <p class="text-gray-400">View comprehensive analytics and usage statistics.</p>
+                    </div>
+                </div>
+
+                <div id="security-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">Security Management</h3>
+                        <p class="text-gray-400">Monitor security events and manage system security settings.</p>
+                    </div>
+                </div>
+
+                <div id="settings-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">System Settings</h3>
+                        <p class="text-gray-400">Configure system-wide settings and preferences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active link
+                document.querySelectorAll('.sidebar-link').forEach(l => {
+                    l.classList.remove('sidebar-active');
+                    l.classList.add('text-gray-400', 'hover:text-white', 'hover:bg-gray-700');
+                });
+                this.classList.add('sidebar-active');
+                this.classList.remove('text-gray-400', 'hover:text-white', 'hover:bg-gray-700');
+                
+                // Show corresponding section
+                const section = this.dataset.section;
+                document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+                document.getElementById(section + '-section').classList.remove('hidden');
+                
+                // Update page title
+                const titles = {
+                    'overview': 'Admin Overview',
+                    'users': 'User Management',
+                    'projects': 'Project Management',
+                    'reports': 'Reports & Abuse',
+                    'analytics': 'System Analytics',
+                    'security': 'Security Management',
+                    'settings': 'System Settings'
+                };
+                
+                const subtitles = {
+                    'overview': 'System administration and monitoring',
+                    'users': 'Manage user accounts and permissions',
+                    'projects': 'Monitor and manage protected projects',
+                    'reports': 'Handle user reports and abuse cases',
+                    'analytics': 'System performance and usage analytics',
+                    'security': 'Security monitoring and management',
+                    'settings': 'System configuration and settings'
+                };
+                
+                document.getElementById('page-title').textContent = titles[section];
+                document.getElementById('page-subtitle').textContent = subtitles[section];
+            });
+        });
+        
+        // Auto-refresh functionality for real-time data
+        setInterval(function() {
+            // In a real application, this would fetch updated data from the server
+            console.log('Refreshing dashboard data...');
+        }, 30000); // Refresh every 30 seconds
+    </script>
+</body>
+</html>

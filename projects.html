@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.8);
+        }
+        
+        .filter-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="nav-link text-blue-400 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" onclick="loadPage('about')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="projects.html" onclick="loadPage('projects')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="creators.html" onclick="loadPage('creators')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                        <a href="contact.html" onclick="loadPage('contact')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <button onclick="loadPage('creator-dashboard')" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</button>
+                        <button onclick="loadPage('login')" class="btn-hover bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Login</button>
+                        <button onclick="loadPage('register')" class="btn-hover bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Register</button>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition-all duration-300">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                <a href="#" class="text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" onclick="loadPage('about')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" onclick="loadPage('projects')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#" onclick="loadPage('creators')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="#" onclick="loadPage('contact')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <button onclick="loadPage('creator-dashboard')" class="w-full text-left bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-2 rounded-lg text-base font-medium">Dashboard</button>
+                <button onclick="loadPage('login')" class="w-full text-left bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-base font-medium">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-32 pb-20 bg-gray-900 relative parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1630510590518-6f07f53458e5');">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center animate-fade-in">
+                <div class="sierra-leone-flag mx-auto mb-6 w-16 h-10"></div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 gradient-text">SLCHB Protected Projects</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Discover innovative projects protected by our blockchain technology. 
+                    Search, filter, and explore ideas
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="py-8 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-6 items-center">
+                <!-- Search Bar -->
+                <div class="flex-1 relative">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-3 top-3 w-5 h-5 text-gray-400"></i>
+                        <input 
+                            type="text" 
+                            id="search-input"
+                            placeholder="Search projects by title, description, or creator..."
+                            class="w-full pl-10 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        />
+                    </div>
+                </div>
+                
+                <!-- Category Filter -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-btn filter-active px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="all">
+                        All Categories
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="technology">
+                        Technology
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="art">
+                        Art & Design
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="writing">
+                        Writing
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="music">
+                        Music
+                    </button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium text-white" data-category="business">
+                        Business
+                    </button>
+                </div>
+                
+                <!-- Sort Dropdown -->
+                <div class="relative">
+                    <select id="sort-select" class="bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="likes">Most Liked</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="py-12 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <div class="text-gray-400">
+                    <span id="project-count">24</span> projects found
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="grid-view" class="p-2 bg-purple-600 rounded-lg">
+                        <i data-lucide="grid-3x3" class="w-5 h-5 text-white"></i>
+                    </button>
+                    <button id="list-view" class="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+                        <i data-lucide="list" class="w-5 h-5 text-white"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project Card 1 -->
+                <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="technology">
+                        <div class="relative h-48">
+                            <img src="https://images.pexels.com/photos/7552359/pexels-photo-7552359.jpeg" alt="AI-Powered Smart Home" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="lightbulb" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-purple-600 text-white px-2 py-1 rounded">Technology</span>
+                            <span class="text-xs text-green-400">Protected</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">AI-Powered Smart Home System</h3>
+                        <p class="text-gray-400 mb-4">Revolutionary home automation using advanced machine learning algorithms for predictive energy management.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>by Sarah Tech</span>
+                            <span>2 days ago</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                    <span class="text-sm">128</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                    <span class="text-sm">23</span>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/project-detail.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="art">
+                        <div class="relative h-48">
+                            <img src="https://images.unsplash.com/photo-1717913491672-ec2c1921e81f" alt="Digital Art Collection" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="palette" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-pink-600 text-white px-2 py-1 rounded">Art & Design</span>
+                            <span class="text-xs text-green-400">Protected</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Digital Art Collection: Future Cities</h3>
+                        <p class="text-gray-400 mb-4">Unique digital artwork series exploring futuristic urban landscapes and sustainable architecture.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>by Alex Designer</span>
+                            <span>1 week ago</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                    <span class="text-sm">89</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                    <span class="text-sm">15</span>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/project-detail.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="technology">
+                        <div class="relative h-48">
+                            <img src="https://images.pexels.com/photos/5060979/pexels-photo-5060979.jpeg" alt="FinTech Solution" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="code" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-green-600 text-white px-2 py-1 rounded">Technology</span>
+                            <span class="text-xs text-green-400">Protected</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Blockchain Trading Algorithm</h3>
+                        <p class="text-gray-400 mb-4">Advanced cryptocurrency trading algorithm using machine learning for market prediction and automated trading.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>by Mike Trader</span>
+                            <span>5 days ago</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                    <span class="text-sm">156</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                    <span class="text-sm">31</span>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/project-detail.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="writing">
+                        <div class="relative h-48">
+                            <img src="https://images.unsplash.com/photo-1717913491672-ec2c1921e81f" alt="Digital Art Collection" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="palette" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-yellow-600 text-white px-2 py-1 rounded">Writing</span>
+                            <span class="text-xs text-green-400">Protected</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">The Future of Work: A Comprehensive Guide</h3>
+                        <p class="text-gray-400 mb-4">In-depth analysis of how remote work, AI, and automation will reshape the global workforce in the next decade.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>by Emma Writer</span>
+                            <span>3 days ago</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                    <span class="text-sm">67</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                    <span class="text-sm">12</span>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/project-detail.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 5 -->
+                <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="music">
+                    <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="technology">
+                        <div class="relative h-48">
+                            <img src="https://images.pexels.com/photos/7552359/pexels-photo-7552359.jpeg" alt="AI-Powered Smart Home" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="lightbulb" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-indigo-600 text-white px-2 py-1 rounded">Music</span>
+                            <span class="text-xs text-green-400">Protected</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Electronic Symphony: Nature's Code</h3>
+                        <p class="text-gray-400 mb-4">Original electronic music composition that translates natural phenomena into digital soundscapes.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>by DJ Nature</span>
+                            <span>1 day ago</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                    <span class="text-sm">94</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                    <span class="text-sm">18</span>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/project-detail.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 6 -->
+                <div class="project-card bg-gray-800 rounded-xl overflow-hidden card-hover" data-category="business">
+                        <div class="relative h-48">
+                            <img src="https://images.unsplash.com/photo-1717913491672-ec2c1921e81f" alt="Digital Art Collection" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="palette" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs bg-blue-600 text-white px-2 py-1 rounded">Business</span>
+                            <span class="text-xs text-green-400">Protected</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Sustainable Business Model Framework</h3>
+                        <p class="text-gray-400 mb-4">Comprehensive framework for building environmentally conscious businesses that prioritize profit and planet.</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>by Green Entrepreneur</span>
+                            <span>4 days ago</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                    <span class="text-sm">73</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                    <span class="text-sm">9</span>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/project-detail.html'" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="load-more" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-medium">
+                    Load More Projects
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                    <p class="text-gray-400 mt-4">
+                        Protecting intellectual property rights with cutting-edge blockchain technology.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Platform</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/projects.html" class="hover:text-purple-400">Projects</a></li>
+                        <li><a href="/creators.html" class="hover:text-purple-400">Creators</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Security</a></li>
+                        <li><a href="#" class="hover:text-purple-400">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about.html" class="hover:text-purple-400">About</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Blog</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Careers</a></li>
+                        <li><a href="/contact.html" class="hover:text-purple-400">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-purple-400">Help Center</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 IPR Guard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        const searchInput = document.getElementById('search-input');
+        const sortSelect = document.getElementById('sort-select');
+        const projectCount = document.getElementById('project-count');
+        
+        // Filter by category
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                
+                // Update active button
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('filter-active');
+                    btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                });
+                this.classList.add('filter-active');
+                this.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                
+                // Filter projects
+                let visibleCount = 0;
+                projectCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                projectCount.textContent = visibleCount;
+            });
+        });
+        
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let visibleCount = 0;
+            
+            projectCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                const creator = card.querySelector('.text-gray-500').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm) || creator.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            projectCount.textContent = visibleCount;
+        });
+        
+        // Sort functionality
+        sortSelect.addEventListener('change', function() {
+            const sortBy = this.value;
+            const grid = document.getElementById('projects-grid');
+            const cards = Array.from(projectCards);
+            
+            cards.sort((a, b) => {
+                switch(sortBy) {
+                    case 'newest':
+                        return new Date(b.querySelector('.text-gray-500:last-child').textContent) - 
+                               new Date(a.querySelector('.text-gray-500:last-child').textContent);
+                    case 'oldest':
+                        return new Date(a.querySelector('.text-gray-500:last-child').textContent) - 
+                               new Date(b.querySelector('.text-gray-500:last-child').textContent);
+                    case 'likes':
+                        return parseInt(b.querySelector('.text-red-400').nextElementSibling.textContent) - 
+                               parseInt(a.querySelector('.text-red-400').nextElementSibling.textContent);
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Re-append sorted cards
+            cards.forEach(card => grid.appendChild(card));
+        });
+        
+        // View toggle
+        const gridView = document.getElementById('grid-view');
+        const listView = document.getElementById('list-view');
+        const projectsGrid = document.getElementById('projects-grid');
+        
+        gridView.addEventListener('click', function() {
+            projectsGrid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+            this.classList.add('bg-purple-600');
+            this.classList.remove('bg-gray-700');
+            listView.classList.remove('bg-purple-600');
+            listView.classList.add('bg-gray-700');
+        });
+        
+        listView.addEventListener('click', function() {
+            projectsGrid.className = 'grid grid-cols-1 gap-4';
+            this.classList.add('bg-purple-600');
+            this.classList.remove('bg-gray-700');
+            gridView.classList.remove('bg-purple-600');
+            gridView.classList.add('bg-gray-700');
+        });
+        
+        // Load more functionality
+        document.getElementById('load-more').addEventListener('click', function() {
+            // Simulate loading more projects
+            this.textContent = 'Loading...';
+            setTimeout(() => {
+                this.textContent = 'Load More Projects';
+                // Add more project cards here
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

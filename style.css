@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #065f46 50%, #dc2626 100%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e40af 0%, #065f46 50%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1496331285476-d13f7fd07d99?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxTaWVycmElMjBMZW9uZXxlbnwwfHx8fDE3NTE4ODk1Mzh8MA&ixlib=rb-4.1.0&q=85');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(15px);
+            background: rgba(17, 24, 39, 0.9);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #1e40af, #065f46, #dc2626);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: #60a5fa;
+        }
+        
+        .flag-colors {
+            background: linear-gradient(to right, #1e40af 33.33%, #ffffff 33.33%, #ffffff 66.66%, #065f46 66.66%);
+        }
+        
+        .sierra-leone-flag {
+            display: inline-block;
+            width: 30px;
+            height: 20px;
+            border-radius: 3px;
+            background: linear-gradient(to bottom, #1e40af 33.33%, #ffffff 33.33%, #ffffff 66.66%, #065f46 66.66%);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-right: 8px;
+        }
+        
+        .btn-hover {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-hover:hover::before {
+            left: 100%;
+        }
+        
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .slider-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .logo-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .logo-hover:hover {
+            transform: scale(1.05);
+        }

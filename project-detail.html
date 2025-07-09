@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Smart Home System - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.8);
+        }
+        
+        .like-btn.liked {
+            color: #ef4444;
+        }
+        
+        .dislike-btn.disliked {
+            color: #6b7280;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="nav-link text-blue-400 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" onclick="loadPage('about')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="projects.html" onclick="loadPage('projects')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="creators.html" onclick="loadPage('creators')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                        <a href="contact.html" onclick="loadPage('contact')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <button onclick="loadPage('creator-dashboard')" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</button>
+                        <button onclick="loadPage('login')" class="btn-hover bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Login</button>
+                        <button onclick="loadPage('register')" class="btn-hover bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Register</button>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition-all duration-300">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                <a href="#" class="text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" onclick="loadPage('about')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" onclick="loadPage('projects')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#" onclick="loadPage('creators')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="#" onclick="loadPage('contact')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <button onclick="loadPage('creator-dashboard')" class="w-full text-left bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-2 rounded-lg text-base font-medium">Dashboard</button>
+                <button onclick="loadPage('login')" class="w-full text-left bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-base font-medium">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="pt-24 pb-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm text-gray-400">
+                <a href="/index.html" class="hover:text-purple-400">Home</a>
+                <span class="mx-2">/</span>
+                <a href="/projects.html" class="hover:text-purple-400">Projects</a>
+                <span class="mx-2">/</span>
+                <span class="text-white">AI-Powered Smart Home System</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Project Header -->
+    <section class="py-8 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Project Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="bg-gray-800 rounded-xl p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center space-x-4">
+                                <span class="text-xs bg-purple-600 text-white px-3 py-1 rounded-full">Technology</span>
+                                <span class="text-xs bg-green-600 text-white px-3 py-1 rounded-full">Protected</span>
+                                <span class="text-xs bg-blue-600 text-white px-3 py-1 rounded-full">Verified</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button id="report-btn" class="text-red-400 hover:text-red-300 p-2 rounded-lg hover:bg-gray-700">
+                                    <i data-lucide="flag" class="w-5 h-5"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700">
+                                    <i data-lucide="share" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <h1 class="text-4xl font-bold mb-4 gradient-text">AI-Powered Smart Home System</h1>
+                        
+                        <div class="flex items-center space-x-6 mb-6 text-gray-400">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user" class="w-4 h-4 text-white"></i>
+                                </div>
+                                <span>by <a href="/creator-profile.html" class="text-purple-400 hover:text-purple-300">Sarah Tech</a></span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i data-lucide="calendar" class="w-4 h-4"></i>
+                                <span>Created 2 days ago</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                <span>Protected at 14:32 UTC</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Image -->
+                        <div class="relative h-48">
+                            <img src="https://images.pexels.com/photos/7552359/pexels-photo-7552359.jpeg" alt="AI-Powered Smart Home" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                            <div class="absolute top-4 right-4">
+                                <span class="bg-green-600 text-white px-2 py-1 rounded-full text-xs">Protected</span>
+                            </div>
+                            <div class="absolute bottom-4 left-4">
+                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="lightbulb" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Description -->
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-semibold mb-4">Project Description</h2>
+                            <div class="prose prose-gray max-w-none">
+                                <p class="text-gray-300 mb-4">
+                                    This revolutionary smart home system leverages advanced artificial intelligence and machine learning algorithms to create an intelligent, predictive home automation experience. Unlike traditional smart home systems that simply respond to commands, this AI-powered solution learns from your behavior patterns and environmental conditions to anticipate your needs.
+                                </p>
+                                <p class="text-gray-300 mb-4">
+                                    The system integrates with over 200 different IoT devices and uses real-time data processing to optimize energy consumption, enhance security, and improve comfort. Key features include:
+                                </p>
+                                <ul class="list-disc list-inside text-gray-300 space-y-2 mb-4">
+                                    <li>Predictive climate control that learns your schedule and preferences</li>
+                                    <li>Advanced security system with facial recognition and behavior analysis</li>
+                                    <li>Energy optimization algorithms that reduce consumption by up to 40%</li>
+                                    <li>Voice-controlled AI assistant with natural language processing</li>
+                                    <li>Integration with renewable energy sources and smart grid technology</li>
+                                </ul>
+                                <p class="text-gray-300 mb-4">
+                                    The system's neural network is trained on millions of data points from real homes, ensuring accurate predictions and seamless automation. Privacy is protected through edge computing, ensuring that personal data never leaves your home network.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Technical Details -->
+                        <div class="mb-8">
+                            <h2 class="text-2xl font-semibold mb-4">Technical Specifications</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold mb-2">AI Framework</h3>
+                                    <p class="text-gray-300">TensorFlow 2.0 with custom neural networks</p>
+                                </div>
+                                <div class="bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold mb-2">Hardware</h3>
+                                    <p class="text-gray-300">Custom ARM-based processing unit</p>
+                                </div>
+                                <div class="bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold mb-2">Connectivity</h3>
+                                    <p class="text-gray-300">WiFi 6, Bluetooth 5.0, Zigbee 3.0</p>
+                                </div>
+                                <div class="bg-gray-700 p-4 rounded-lg">
+                                    <h3 class="font-semibold mb-2">Storage</h3>
+                                    <p class="text-gray-300">Local encrypted storage with cloud backup</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Like/Dislike and Actions -->
+                        <div class="flex items-center justify-between border-t border-gray-700 pt-6">
+                            <div class="flex items-center space-x-6">
+                                <button id="like-btn" class="like-btn flex items-center space-x-2 text-gray-400 hover:text-red-400">
+                                    <i data-lucide="heart" class="w-5 h-5"></i>
+                                    <span id="like-count">128</span>
+                                </button>
+                                <button id="dislike-btn" class="dislike-btn flex items-center space-x-2 text-gray-400 hover:text-gray-300">
+                                    <i data-lucide="thumbs-down" class="w-5 h-5"></i>
+                                    <span id="dislike-count">3</span>
+                                </button>
+                                <button class="flex items-center space-x-2 text-gray-400 hover:text-blue-400">
+                                    <i data-lucide="bookmark" class="w-5 h-5"></i>
+                                    <span>Save</span>
+                                </button>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <button class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg">
+                                    Contact Creator
+                                </button>
+                                <button class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                                    View Certificate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <!-- Protection Info -->
+                    <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i data-lucide="shield-check" class="w-5 h-5 mr-2 text-green-400"></i>
+                            Protection Status
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Status:</span>
+                                <span class="text-green-400 font-medium">Protected</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Timestamp:</span>
+                                <span class="text-white">2024-01-15 14:32:18 UTC</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Blockchain:</span>
+                                <span class="text-white">Ethereum</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Hash:</span>
+                                <span class="text-white text-sm">0x7d8f...4a2e</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mt-4">
+                            View on Blockchain
+                        </button>
+                    </div>
+                    
+                    <!-- Creator Info -->
+                    <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4">Creator</h3>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                                <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Sarah Tech</h4>
+                                <p class="text-gray-400 text-sm">AI Developer</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-center mb-4">
+                            <div>
+                                <div class="text-2xl font-bold text-purple-400">15</div>
+                                <div class="text-gray-400 text-sm">Projects</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-blue-400">1.2K</div>
+                                <div class="text-gray-400 text-sm">Followers</div>
+                            </div>
+                        </div>
+                        <a href="/creator-profile.html" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg block text-center">
+                            View Profile
+                        </a>
+                    </div>
+                    
+                    <!-- Related Projects -->
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold mb-4">Related Projects</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="zap" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Smart Energy Grid</h4>
+                                    <p class="text-gray-400 text-sm">by Mike Engineer</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="smartphone" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">IoT Security Protocol</h4>
+                                    <p class="text-gray-400 text-sm">by Emma Security</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="home" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Connected Living</h4>
+                                    <p class="text-gray-400 text-sm">by Alex Designer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="py-12 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:max-w-4xl">
+                <h2 class="text-3xl font-bold mb-8">Comments <span class="text-gray-400">(23)</span></h2>
+                
+                <!-- Add Comment Form -->
+                <div class="bg-gray-900 rounded-xl p-6 mb-8">
+                    <h3 class="text-xl font-semibold mb-4">Add a Comment</h3>
+                    <div class="space-y-4">
+                        <textarea 
+                            id="comment-text"
+                            placeholder="Share your thoughts about this project..."
+                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            rows="4"
+                        ></textarea>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 text-sm">Please be respectful and constructive</span>
+                            <button id="submit-comment" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg">
+                                Post Comment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Comments List -->
+                <div class="space-y-6">
+                    <div class="bg-gray-900 rounded-xl p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <h4 class="font-semibold">Alex Developer</h4>
+                                    <span class="text-gray-400 text-sm">2 hours ago</span>
+                                </div>
+                                <p class="text-gray-300 mb-3">
+                                    This is absolutely brilliant! The AI integration approach is innovative and the energy optimization features could revolutionize how we think about smart homes. Have you considered open-sourcing some of the algorithms?
+                                </p>
+                                <div class="flex items-center space-x-4 text-gray-400">
+                                    <button class="hover:text-purple-400">
+                                        <i data-lucide="thumbs-up" class="w-4 h-4 mr-1"></i>
+                                        12
+                                    </button>
+                                    <button class="hover:text-purple-400">
+                                        <i data-lucide="message-circle" class="w-4 h-4 mr-1"></i>
+                                        Reply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-xl p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-teal-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <h4 class="font-semibold">Emma Green</h4>
+                                    <span class="text-gray-400 text-sm">5 hours ago</span>
+                                </div>
+                                <p class="text-gray-300 mb-3">
+                                    The sustainability aspect is what caught my attention. A 40% reduction in energy consumption is massive! What kind of machine learning models are you using for the predictive analytics?
+                                </p>
+                                <div class="flex items-center space-x-4 text-gray-400">
+                                    <button class="hover:text-purple-400">
+                                        <i data-lucide="thumbs-up" class="w-4 h-4 mr-1"></i>
+                                        8
+                                    </button>
+                                    <button class="hover:text-purple-400">
+                                        <i data-lucide="message-circle" class="w-4 h-4 mr-1"></i>
+                                        Reply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-xl p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <h4 class="font-semibold">Mike Investor</h4>
+                                    <span class="text-gray-400 text-sm">1 day ago</span>
+                                </div>
+                                <p class="text-gray-300 mb-3">
+                                    Very impressive work! The market potential for this technology is enormous. Are you considering partnerships with major home automation companies?
+                                </p>
+                                <div class="flex items-center space-x-4 text-gray-400">
+                                    <button class="hover:text-purple-400">
+                                        <i data-lucide="thumbs-up" class="w-4 h-4 mr-1"></i>
+                                        15
+                                    </button>
+                                    <button class="hover:text-purple-400">
+                                        <i data-lucide="message-circle" class="w-4 h-4 mr-1"></i>
+                                        Reply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                        Load More Comments
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Report Modal -->
+    <div id="report-modal" class="modal">
+        <div class="bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold">Report Project</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Reason for reporting</label>
+                    <select id="report-reason" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="">Select a reason</option>
+                        <option value="copyright">Copyright infringement</option>
+                        <option value="inappropriate">Inappropriate content</option>
+                        <option value="spam">Spam</option>
+                        <option value="false-claim">False IP claim</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Additional details</label>
+                    <textarea 
+                        id="report-details"
+                        placeholder="Please provide more information about your report..."
+                        class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        rows="3"
+                    ></textarea>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button id="cancel-report" class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                    <button id="submit-report" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                        Submit Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Like/Dislike functionality
+        const likeBtn = document.getElementById('like-btn');
+        const dislikeBtn = document.getElementById('dislike-btn');
+        const likeCount = document.getElementById('like-count');
+        const dislikeCount = document.getElementById('dislike-count');
+        
+        let liked = false;
+        let disliked = false;
+        
+        likeBtn.addEventListener('click', function() {
+            if (!liked) {
+                liked = true;
+                disliked = false;
+                this.classList.add('liked');
+                dislikeBtn.classList.remove('disliked');
+                likeCount.textContent = parseInt(likeCount.textContent) + 1;
+                if (parseInt(dislikeCount.textContent) > 0) {
+                    dislikeCount.textContent = parseInt(dislikeCount.textContent) - 1;
+                }
+            } else {
+                liked = false;
+                this.classList.remove('liked');
+                likeCount.textContent = parseInt(likeCount.textContent) - 1;
+            }
+        });
+        
+        dislikeBtn.addEventListener('click', function() {
+            if (!disliked) {
+                disliked = true;
+                liked = false;
+                this.classList.add('disliked');
+                likeBtn.classList.remove('liked');
+                dislikeCount.textContent = parseInt(dislikeCount.textContent) + 1;
+                if (parseInt(likeCount.textContent) > 0) {
+                    likeCount.textContent = parseInt(likeCount.textContent) - 1;
+                }
+            } else {
+                disliked = false;
+                this.classList.remove('disliked');
+                dislikeCount.textContent = parseInt(dislikeCount.textContent) - 1;
+            }
+        });
+        
+        // Comment functionality
+        const commentText = document.getElementById('comment-text');
+        const submitComment = document.getElementById('submit-comment');
+        
+        submitComment.addEventListener('click', function() {
+            const text = commentText.value.trim();
+            if (text) {
+                // Add comment to the list (in a real app, this would send to server)
+                alert('Comment submitted successfully!');
+                commentText.value = '';
+            }
+        });
+        
+        // Report modal functionality
+        const reportBtn = document.getElementById('report-btn');
+        const reportModal = document.getElementById('report-modal');
+        const closeModal = document.getElementById('close-modal');
+        const cancelReport = document.getElementById('cancel-report');
+        const submitReport = document.getElementById('submit-report');
+        
+        reportBtn.addEventListener('click', function() {
+            reportModal.classList.add('show');
+        });
+        
+        closeModal.addEventListener('click', function() {
+            reportModal.classList.remove('show');
+        });
+        
+        cancelReport.addEventListener('click', function() {
+            reportModal.classList.remove('show');
+        });
+        
+        submitReport.addEventListener('click', function() {
+            const reason = document.getElementById('report-reason').value;
+            const details = document.getElementById('report-details').value;
+            
+            if (reason) {
+                alert('Report submitted successfully. Our team will review it shortly.');
+                reportModal.classList.remove('show');
+                // Reset form
+                document.getElementById('report-reason').value = '';
+                document.getElementById('report-details').value = '';
+            } else {
+                alert('Please select a reason for reporting.');
+            }
+        });
+        
+        // Close modal when clicking outside
+        reportModal.addEventListener('click', function(e) {
+            if (e.target === reportModal) {
+                reportModal.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

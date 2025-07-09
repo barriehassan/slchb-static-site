@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarah Tech - Creator Profile - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.8);
+        }
+        
+        .tab-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+        <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="nav-link text-blue-400 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" onclick="loadPage('about')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="projects.html" onclick="loadPage('projects')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="creators.html" onclick="loadPage('creators')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                        <a href="contact.html" onclick="loadPage('contact')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <button onclick="loadPage('creator-dashboard')" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</button>
+                        <button onclick="loadPage('login')" class="btn-hover bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Login</button>
+                        <button onclick="loadPage('register')" class="btn-hover bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Register</button>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition-all duration-300">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                <a href="#" class="text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" onclick="loadPage('about')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" onclick="loadPage('projects')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#" onclick="loadPage('creators')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="#" onclick="loadPage('contact')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <button onclick="loadPage('creator-dashboard')" class="w-full text-left bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-2 rounded-lg text-base font-medium">Dashboard</button>
+                <button onclick="loadPage('login')" class="w-full text-left bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-base font-medium">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="pt-24 pb-6 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm text-gray-400">
+                <a href="/index.html" class="hover:text-purple-400">Home</a>
+                <span class="mx-2">/</span>
+                <a href="/creators.html" class="hover:text-purple-400">Creators</a>
+                <span class="mx-2">/</span>
+                <span class="text-white">Sarah Tech</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Profile Header -->
+    <section class="py-8 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-800 rounded-xl p-8">
+                <div class="flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
+                    <!-- Avatar -->
+                    <div class="flex-shrink-0">
+                        <div class="w-32 h-32 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                            <i data-lucide="user" class="w-16 h-16 text-white"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Info -->
+                    <div class="flex-1 text-center lg:text-left">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
+                            <div>
+                                <h1 class="text-3xl font-bold mb-2">Sarah Tech</h1>
+                                <p class="text-xl text-purple-400 mb-2">AI Developer & Innovation Leader</p>
+                                <div class="flex flex-wrap justify-center lg:justify-start gap-2 mb-4">
+                                    <span class="px-3 py-1 bg-purple-600 text-white text-sm rounded-full">AI/ML</span>
+                                    <span class="px-3 py-1 bg-blue-600 text-white text-sm rounded-full">Smart Home</span>
+                                    <span class="px-3 py-1 bg-green-600 text-white text-sm rounded-full">IoT</span>
+                                    <span class="px-3 py-1 bg-yellow-600 text-white text-sm rounded-full">Blockchain</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <button class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg">
+                                    Follow
+                                </button>
+                                <button class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg">
+                                    Message
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <p class="text-gray-300 mb-6">
+                            Passionate AI developer with 8+ years of experience building intelligent systems that make a difference. 
+                            Specializing in machine learning, smart home automation, and sustainable technology solutions. 
+                            Always excited to collaborate on innovative projects that push the boundaries of what's possible.
+                        </p>
+                        
+                        <!-- Stats -->
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+                            <div>
+                                <div class="text-3xl font-bold text-purple-400">15</div>
+                                <div class="text-gray-400">Protected Projects</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-blue-400">1.2K</div>
+                                <div class="text-gray-400">Followers</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-green-400">4.9</div>
+                                <div class="text-gray-400">Rating</div>
+                            </div>
+                            <div>
+                                <div class="text-3xl font-bold text-yellow-400">2.8K</div>
+                                <div class="text-gray-400">Total Likes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Content -->
+    <section class="py-12 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <!-- Tabs -->
+                    <div class="flex space-x-1 mb-8 bg-gray-800 rounded-lg p-1">
+                        <button class="tab-btn tab-active px-4 py-2 rounded-lg font-medium" data-tab="projects">
+                            Projects
+                        </button>
+                        <button class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-400 hover:text-white" data-tab="about">
+                            About
+                        </button>
+                        <button class="tab-btn px-4 py-2 rounded-lg font-medium text-gray-400 hover:text-white" data-tab="reviews">
+                            Reviews
+                        </button>
+                    </div>
+                    
+                    <!-- Projects Tab Content -->
+                    <div id="projects-tab" class="tab-content">
+                        <div class="space-y-6">
+                            <!-- Project 1 -->
+                            <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="cpu" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h3 class="text-xl font-semibold">AI-Powered Smart Home System</h3>
+                                            <span class="text-sm text-green-400">Protected</span>
+                                        </div>
+                                        <p class="text-gray-400 mb-4">
+                                            Revolutionary home automation system using advanced AI algorithms for predictive energy management.
+                                        </p>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span>2 days ago</span>
+                                                <div class="flex items-center space-x-1">
+                                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                                    <span>128</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1">
+                                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                                    <span>23</span>
+                                                </div>
+                                            </div>
+                                            <a href="/project-detail.html" class="text-purple-400 hover:text-purple-300">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Project 2 -->
+                            <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="zap" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h3 class="text-xl font-semibold">Smart Energy Grid Optimizer</h3>
+                                            <span class="text-sm text-green-400">Protected</span>
+                                        </div>
+                                        <p class="text-gray-400 mb-4">
+                                            Machine learning algorithm that optimizes energy distribution in smart grid systems.
+                                        </p>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span>1 week ago</span>
+                                                <div class="flex items-center space-x-1">
+                                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                                    <span>89</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1">
+                                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                                    <span>15</span>
+                                                </div>
+                                            </div>
+                                            <a href="/project-detail.html" class="text-purple-400 hover:text-purple-300">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Project 3 -->
+                            <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="shield" class="w-8 h-8 text-white"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h3 class="text-xl font-semibold">IoT Security Protocol</h3>
+                                            <span class="text-sm text-green-400">Protected</span>
+                                        </div>
+                                        <p class="text-gray-400 mb-4">
+                                            Advanced security framework for IoT devices with AI-powered threat detection.
+                                        </p>
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                                <span>2 weeks ago</span>
+                                                <div class="flex items-center space-x-1">
+                                                    <i data-lucide="heart" class="w-4 h-4 text-red-400"></i>
+                                                    <span>156</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1">
+                                                    <i data-lucide="message-circle" class="w-4 h-4 text-blue-400"></i>
+                                                    <span>31</span>
+                                                </div>
+                                            </div>
+                                            <a href="/project-detail.html" class="text-purple-400 hover:text-purple-300">View Details →</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-8">
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg">
+                                View All Projects
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- About Tab Content -->
+                    <div id="about-tab" class="tab-content hidden">
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-2xl font-semibold mb-4">About Sarah</h3>
+                            <div class="space-y-4 text-gray-300">
+                                <p>
+                                    Sarah is a visionary AI developer with over 8 years of experience in machine learning, 
+                                    smart home technology, and sustainable innovation. She holds a Master's degree in Computer 
+                                    Science from MIT and has worked with leading tech companies before becoming an independent creator.
+                                </p>
+                                <p>
+                                    Her passion lies in creating intelligent systems that not only solve complex problems but 
+                                    also contribute to a more sustainable future. Sarah believes that AI should be accessible, 
+                                    ethical, and beneficial for everyone.
+                                </p>
+                                <p>
+                                    When she's not coding, Sarah enjoys hiking, reading science fiction novels, and mentoring 
+                                    young developers. She's also an active advocate for women in tech and frequently speaks at 
+                                    conferences about the future of AI and its impact on society.
+                                </p>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <h4 class="text-xl font-semibold mb-4">Skills & Expertise</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-gray-700 p-4 rounded-lg">
+                                        <h5 class="font-semibold mb-2">Technical Skills</h5>
+                                        <ul class="text-gray-300 space-y-1">
+                                            <li>• Machine Learning</li>
+                                            <li>• Deep Learning</li>
+                                            <li>• Python, TensorFlow</li>
+                                            <li>• IoT Development</li>
+                                            <li>• Blockchain</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-gray-700 p-4 rounded-lg">
+                                        <h5 class="font-semibold mb-2">Industries</h5>
+                                        <ul class="text-gray-300 space-y-1">
+                                            <li>• Smart Home</li>
+                                            <li>• Energy Tech</li>
+                                            <li>• Healthcare AI</li>
+                                            <li>• Fintech</li>
+                                            <li>• Sustainability</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews Tab Content -->
+                    <div id="reviews-tab" class="tab-content hidden">
+                        <div class="space-y-6">
+                            <div class="bg-gray-800 rounded-xl p-6">
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-teal-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold">Alex Developer</h4>
+                                        <div class="flex items-center space-x-1">
+                                            <div class="flex text-yellow-400">
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                            </div>
+                                            <span class="text-gray-400 text-sm">5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-300">
+                                    "Sarah's AI solutions are absolutely brilliant! Her smart home project revolutionized 
+                                    how I think about home automation. The energy savings are incredible, and the system 
+                                    learns my habits perfectly. Highly recommend working with her!"
+                                </p>
+                            </div>
+                            
+                            <div class="bg-gray-800 rounded-xl p-6">
+                                <div class="flex items-center space-x-4 mb-4">
+                                    <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold">Emma Green</h4>
+                                        <div class="flex items-center space-x-1">
+                                            <div class="flex text-yellow-400">
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                            </div>
+                                            <span class="text-gray-400 text-sm">5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="text-gray-300">
+                                    "Working with Sarah was an amazing experience. Her expertise in sustainability and 
+                                    AI helped us develop a breakthrough energy optimization system. She's professional, 
+                                    innovative, and truly cares about making a positive impact."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <!-- Contact Info -->
+                    <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4">Contact Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-gray-400"></i>
+                                <span class="text-gray-300">San Francisco, CA</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i data-lucide="globe" class="w-5 h-5 text-gray-400"></i>
+                                <a href="#" class="text-purple-400 hover:text-purple-300">www.sarahtech.dev</a>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i data-lucide="linkedin" class="w-5 h-5 text-gray-400"></i>
+                                <a href="#" class="text-purple-400 hover:text-purple-300">@sarahtech</a>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <i data-lucide="github" class="w-5 h-5 text-gray-400"></i>
+                                <a href="#" class="text-purple-400 hover:text-purple-300">github.com/sarahtech</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="upload" class="w-4 h-4 text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Published new project</p>
+                                    <p class="text-xs text-gray-500">2 days ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="message-circle" class="w-4 h-4 text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Replied to comments</p>
+                                    <p class="text-xs text-gray-500">3 days ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="star" class="w-4 h-4 text-white"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-300">Received 5-star review</p>
+                                    <p class="text-xs text-gray-500">1 week ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Similar Creators -->
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold mb-4">Similar Creators</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Mike Trader</h4>
+                                    <p class="text-gray-400 text-sm">Blockchain Developer</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-teal-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Tech Innovator</h4>
+                                    <p class="text-gray-400 text-sm">Mobile Developer</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-red-600 to-pink-600 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Data Scientist</h4>
+                                    <p class="text-gray-400 text-sm">AI/ML Expert</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                    <p class="text-gray-400 mt-4">
+                        Protecting intellectual property rights with cutting-edge blockchain technology.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Platform</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/projects.html" class="hover:text-purple-400">Projects</a></li>
+                        <li><a href="/creators.html" class="hover:text-purple-400">Creators</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Security</a></li>
+                        <li><a href="#" class="hover:text-purple-400">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about.html" class="hover:text-purple-400">About</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Blog</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Careers</a></li>
+                        <li><a href="/contact.html" class="hover:text-purple-400">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-purple-400">Help Center</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 IPR Guard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Tab functionality
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetTab = this.dataset.tab;
+                
+                // Update active tab button
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('text-gray-400');
+                });
+                this.classList.add('tab-active');
+                this.classList.remove('text-gray-400');
+                
+                // Show/hide tab content
+                tabContents.forEach(content => {
+                    if (content.id === targetTab + '-tab') {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

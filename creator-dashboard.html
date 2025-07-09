@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Dashboard - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.9);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 fixed h-full z-40">
+            <div class="p-6">
+                <div class="flex items-center mb-8">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-purple-400 mr-2"></i>
+                    <span class="text-xl font-bold gradient-text">IPR Guard</span>
+                </div>
+                
+                <nav class="space-y-2">
+                    <a href="#" class="sidebar-link sidebar-active flex items-center space-x-3 px-4 py-3 rounded-lg text-white" data-section="dashboard">
+                        <i data-lucide="home" class="w-5 h-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="projects">
+                        <i data-lucide="folder" class="w-5 h-5"></i>
+                        <span>My Projects</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="analytics">
+                        <i data-lucide="bar-chart" class="w-5 h-5"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="certificates">
+                        <i data-lucide="award" class="w-5 h-5"></i>
+                        <span>Certificates</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="profile">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="sidebar-link flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700" data-section="settings">
+                        <i data-lucide="settings" class="w-5 h-5"></i>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <div class="absolute bottom-6 left-6 right-6">
+                <a href="/index.html" class="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    <span>Back to Site</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 ml-64">
+            <!-- Top Navigation -->
+            <nav class="navbar-blur border-b border-gray-800 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold" id="page-title">Dashboard</h1>
+                        <p class="text-gray-400" id="page-subtitle">Welcome back, Sarah!</p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700">
+                            <i data-lucide="bell" class="w-5 h-5"></i>
+                        </button>
+                        <button class="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-700">
+                            <i data-lucide="help-circle" class="w-5 h-5"></i>
+                        </button>
+                        <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center">
+                            <i data-lucide="user" class="w-4 h-4 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <div class="p-6">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="section-content">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Protected Projects</p>
+                                    <p class="text-3xl font-bold text-purple-400">15</p>
+                                </div>
+                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="shield" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">+2</span>
+                                <span class="text-gray-400 ml-1">this month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total Views</p>
+                                    <p class="text-3xl font-bold text-blue-400">8.2K</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="eye" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">+15%</span>
+                                <span class="text-gray-400 ml-1">vs last month</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total Likes</p>
+                                    <p class="text-3xl font-bold text-green-400">2.8K</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="heart" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">+128</span>
+                                <span class="text-gray-400 ml-1">this week</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6 card-hover">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Followers</p>
+                                    <p class="text-3xl font-bold text-yellow-400">1.2K</p>
+                                </div>
+                                <div class="w-12 h-12 bg-yellow-600 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="users" class="w-6 h-6 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-400">+45</span>
+                                <span class="text-gray-400 ml-1">new followers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-xl font-semibold mb-4">Quick Actions</h3>
+                            <div class="space-y-3">
+                                <button id="new-project-btn" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-3 rounded-lg flex items-center justify-center space-x-2">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                    <span>Protect New Project</span>
+                                </button>
+                                <button class="w-full bg-gray-700 hover:bg-gray-600 text-white px-4 py-3 rounded-lg flex items-center justify-center space-x-2">
+                                    <i data-lucide="upload" class="w-5 h-5"></i>
+                                    <span>Upload Files</span>
+                                </button>
+                                <button class="w-full bg-gray-700 hover:bg-gray-600 text-white px-4 py-3 rounded-lg flex items-center justify-center space-x-2">
+                                    <i data-lucide="download" class="w-5 h-5"></i>
+                                    <span>Download Certificate</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-xl p-6">
+                            <h3 class="text-xl font-semibold mb-4">Recent Activity</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="shield-check" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">Project "AI Smart Home" protected</p>
+                                        <p class="text-xs text-gray-400">2 days ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="message-circle" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">New comment on "Energy Grid"</p>
+                                        <p class="text-xs text-gray-400">3 days ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                                        <i data-lucide="heart" class="w-4 h-4 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium">128 likes on latest project</p>
+                                        <p class="text-xs text-gray-400">1 week ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Projects -->
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-semibold">Recent Projects</h3>
+                            <a href="#" class="text-purple-400 hover:text-purple-300">View All</a>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-700">
+                                        <th class="text-left py-3 text-gray-400">Project</th>
+                                        <th class="text-left py-3 text-gray-400">Status</th>
+                                        <th class="text-left py-3 text-gray-400">Date</th>
+                                        <th class="text-left py-3 text-gray-400">Engagement</th>
+                                        <th class="text-left py-3 text-gray-400">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-700">
+                                    <tr>
+                                        <td class="py-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
+                                                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium">AI-Powered Smart Home</p>
+                                                    <p class="text-sm text-gray-400">Technology</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="px-2 py-1 bg-green-600 text-white text-xs rounded-full">Protected</span>
+                                        </td>
+                                        <td class="py-4 text-gray-400">Jan 15, 2024</td>
+                                        <td class="py-4">
+                                            <div class="flex items-center space-x-4 text-sm">
+                                                <span class="text-red-400">❤ 128</span>
+                                                <span class="text-blue-400">💬 23</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <button class="text-purple-400 hover:text-purple-300 text-sm">Edit</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-4">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-teal-600 rounded-lg flex items-center justify-center">
+                                                    <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium">Energy Grid Optimizer</p>
+                                                    <p class="text-sm text-gray-400">Technology</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="px-2 py-1 bg-green-600 text-white text-xs rounded-full">Protected</span>
+                                        </td>
+                                        <td class="py-4 text-gray-400">Jan 08, 2024</td>
+                                        <td class="py-4">
+                                            <div class="flex items-center space-x-4 text-sm">
+                                                <span class="text-red-400">❤ 89</span>
+                                                <span class="text-blue-400">💬 15</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <button class="text-purple-400 hover:text-purple-300 text-sm">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections would be added here (projects, analytics, etc.) -->
+                <div id="projects-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">My Projects</h3>
+                        <p class="text-gray-400">Manage all your protected intellectual property projects here.</p>
+                        <!-- Project management interface would go here -->
+                    </div>
+                </div>
+
+                <div id="analytics-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">Analytics</h3>
+                        <p class="text-gray-400">View detailed analytics for your projects and engagement metrics.</p>
+                        <!-- Analytics charts would go here -->
+                    </div>
+                </div>
+
+                <div id="certificates-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">Certificates</h3>
+                        <p class="text-gray-400">Download and manage your blockchain certificates.</p>
+                        <!-- Certificate management would go here -->
+                    </div>
+                </div>
+
+                <div id="profile-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">Profile Settings</h3>
+                        <p class="text-gray-400">Update your profile information and preferences.</p>
+                        <!-- Profile settings would go here -->
+                    </div>
+                </div>
+
+                <div id="settings-section" class="section-content hidden">
+                    <div class="bg-gray-800 rounded-xl p-6">
+                        <h3 class="text-2xl font-semibold mb-4">Account Settings</h3>
+                        <p class="text-gray-400">Manage your account settings and preferences.</p>
+                        <!-- Settings interface would go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Project Modal -->
+    <div id="new-project-modal" class="modal">
+        <div class="bg-gray-800 rounded-xl p-6 max-w-md w-full mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-semibold">Protect New Project</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Project Title</label>
+                    <input 
+                        type="text" 
+                        class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        placeholder="Enter project title"
+                    />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Category</label>
+                    <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <option value="">Select category</option>
+                        <option value="technology">Technology</option>
+                        <option value="art">Art & Design</option>
+                        <option value="writing">Writing</option>
+                        <option value="music">Music</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Upload Files</label>
+                    <div class="border-2 border-dashed border-gray-600 rounded-lg p-4 text-center">
+                        <i data-lucide="upload" class="w-8 h-8 text-gray-400 mx-auto mb-2"></i>
+                        <p class="text-gray-400">Drop files here or click to browse</p>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancel-modal" class="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+                        Protect Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Sidebar navigation
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active link
+                document.querySelectorAll('.sidebar-link').forEach(l => {
+                    l.classList.remove('sidebar-active');
+                    l.classList.add('text-gray-400', 'hover:text-white', 'hover:bg-gray-700');
+                });
+                this.classList.add('sidebar-active');
+                this.classList.remove('text-gray-400', 'hover:text-white', 'hover:bg-gray-700');
+                
+                // Show corresponding section
+                const section = this.dataset.section;
+                document.querySelectorAll('.section-content').forEach(s => s.classList.add('hidden'));
+                document.getElementById(section + '-section').classList.remove('hidden');
+                
+                // Update page title
+                const titles = {
+                    'dashboard': 'Dashboard',
+                    'projects': 'My Projects',
+                    'analytics': 'Analytics',
+                    'certificates': 'Certificates',
+                    'profile': 'Profile',
+                    'settings': 'Settings'
+                };
+                document.getElementById('page-title').textContent = titles[section];
+            });
+        });
+        
+        // Modal functionality
+        const newProjectModal = document.getElementById('new-project-modal');
+        const newProjectBtn = document.getElementById('new-project-btn');
+        const closeModal = document.getElementById('close-modal');
+        const cancelModal = document.getElementById('cancel-modal');
+        
+        newProjectBtn.addEventListener('click', function() {
+            newProjectModal.classList.add('show');
+        });
+        
+        closeModal.addEventListener('click', function() {
+            newProjectModal.classList.remove('show');
+        });
+        
+        cancelModal.addEventListener('click', function() {
+            newProjectModal.classList.remove('show');
+        });
+        
+        // Close modal when clicking outside
+        newProjectModal.addEventListener('click', function(e) {
+            if (e.target === newProjectModal) {
+                newProjectModal.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - IPR Guard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .navbar-blur {
+            backdrop-filter: blur(10px);
+            background: rgba(17, 24, 39, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 navbar-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="index.html" class="nav-link text-blue-400 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="about.html" onclick="loadPage('about')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="projects.html" onclick="loadPage('projects')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="creators.html" onclick="loadPage('creators')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Creators</a>
+                        <a href="contact.html" onclick="loadPage('contact')" class="nav-link text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center space-x-4">
+                        <button onclick="loadPage('creator-dashboard')" class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</button>
+                        <button onclick="loadPage('login')" class="btn-hover bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Login</button>
+                        <button onclick="loadPage('register')" class="btn-hover bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium">Register</button>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-400 hover:text-white transition-all duration-300">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800">
+                <a href="#" class="text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" onclick="loadPage('about')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" onclick="loadPage('projects')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#" onclick="loadPage('creators')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Creators</a>
+                <a href="#" onclick="loadPage('contact')" class="text-gray-300 hover:text-blue-400 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <button onclick="loadPage('creator-dashboard')" class="w-full text-left bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-2 rounded-lg text-base font-medium">Dashboard</button>
+                <button onclick="loadPage('login')" class="w-full text-left bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-base font-medium">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-32 pb-20 bg-gray-900 relative parallax-bg" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1630510590518-6f07f53458e5');">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center animate-fade-in">
+                <div class="sierra-leone-flag mx-auto mb-6 w-16 h-10"></div>
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 gradient-text">Get in Touch</h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                  Have questions about protecting your intellectual property? 
+                  Our team is here to help you secure your innovations.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Methods -->
+    <section class="py-12 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Email -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="mail" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Email Us</h3>
+                    <p class="text-gray-400 mb-4">Send us an email and we'll respond within 24 hours</p>
+                    <a href="mailto:support@iprguard.com" class="text-purple-400 hover:text-purple-300 font-medium">
+                        support@iprguard.com
+                    </a>
+                </div>
+                
+                <!-- Phone -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="phone" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Call Us</h3>
+                    <p class="text-gray-400 mb-4">Available Monday to Friday, 9 AM to 6 PM PST</p>
+                    <a href="tel:+1-555-0123" class="text-purple-400 hover:text-purple-300 font-medium">
+                        +1 (555) 012-3456
+                    </a>
+                </div>
+                
+                <!-- Live Chat -->
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="message-circle" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Live Chat</h3>
+                    <p class="text-gray-400 mb-4">Chat with our support team in real-time</p>
+                    <button class="text-purple-400 hover:text-purple-300 font-medium">
+                        Start Chat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-16 bg-gray-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-800 rounded-xl p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold mb-4 text-green-400 ">Send us a Message</h2>
+                    <p class="text-gray-400">
+                        Fill out the form below and our team will get back to you as soon as possible
+                    </p>
+                </div>
+                
+                <form method="get" action="" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="first-name" class="block text-sm font-medium mb-2">First Name *</label>
+                            <input 
+                                type="text" 
+                                id="first-name" 
+                                name="first-name" 
+                                required
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Enter your first name"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label for="last-name" class="block text-sm font-medium mb-2">Last Name *</label>
+                            <input 
+                                type="text" 
+                                id="last-name" 
+                                name="last-name" 
+                                required
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Enter your last name"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">Email Address *</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Enter your email address"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-sm font-medium mb-2">Phone Number</label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone"
+                                class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="Enter your phone number"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium mb-2">Subject *</label>
+                        <select 
+                            id="subject" 
+                            name="subject" 
+                            required
+                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        >
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                            <option value="legal">Legal/IP Question</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium mb-2">Message *</label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            required
+                            rows="6"
+                            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="Tell us how we can help you..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <input 
+                            type="checkbox" 
+                            id="newsletter" 
+                            name="newsletter"
+                            class="w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
+                        />
+                        <label for="newsletter" class="text-gray-300 text-sm">
+                            I would like to receive updates about new features and IP protection tips
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <button 
+                            type="submit"
+                            class="btn-hover bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors"
+                        >
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 text-blue-400">Frequently Asked Questions</h2>
+                <p class="text-gray-400">
+                    Quick answers to common questions about IPR Guard
+                </p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-gray-900 rounded-xl">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700 rounded-xl transition-colors">
+                        <span class="font-semibold">How does blockchain-based IP protection work?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-300">
+                            When you upload your intellectual property to our platform, we create a cryptographic hash of your content and record it on the blockchain with an immutable timestamp. This creates undeniable proof of when your IP was created and registered, which can be used as evidence in legal proceedings.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="bg-gray-900 rounded-xl">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700 rounded-xl transition-colors">
+                        <span class="font-semibold">What types of content can I protect?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-300">
+                            You can protect various types of intellectual property including written content (articles, books, research papers), digital art and designs, software code, music compositions, business ideas, invention concepts, and any other creative work that can be digitized.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="bg-gray-900 rounded-xl">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700 rounded-xl transition-colors">
+                        <span class="font-semibold">Is my content secure and private?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-300">
+                            Absolutely. We use military-grade encryption to protect your content. Only you control who can access your projects. The blockchain only stores a cryptographic hash (fingerprint) of your content, not the actual content itself, ensuring your IP remains private while still being verifiably protected.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="bg-gray-900 rounded-xl">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700 rounded-xl transition-colors">
+                        <span class="font-semibold">How much does it cost to protect my IP?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-300">
+                            We offer flexible pricing plans starting from $9.99/month for individual creators. This includes protection for up to 10 projects, blockchain certification, and basic support. Enterprise plans are available for larger organizations with higher volume needs.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="bg-gray-900 rounded-xl">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-700 rounded-xl transition-colors">
+                        <span class="font-semibold">Can I use IPR Guard certificates in court?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-300">
+                            Yes! Our blockchain certificates are legally admissible as evidence in courts worldwide. The immutable nature of blockchain technology provides strong proof of creation date and authorship. However, we always recommend consulting with IP lawyers for specific legal advice.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Office Locations -->
+    <section class="py-16 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4 ">Our Offices</h2>
+                <p class="text-gray-400">
+                    Find us in major tech hubs around the world
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- San Francisco -->
+                <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Freetown City</h3>
+                    <p class="text-gray-400 mb-4">Headquarters</p>
+                    <div class="text-gray-300 text-sm">
+                        <p>Limkokwing University</p>
+                        <p>45 Hill Staion, Imatt</p>
+                        <p class="mt-2">+232 76 107 333</p>
+                    </div>
+                </div>
+                
+                <!-- New York -->
+                <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Bo City</h3>
+                    <p class="text-gray-400 mb-4">Southern Office</p>
+                    <div class="text-gray-300 text-sm">
+                        <p>456 Tech Avenue</p>
+                        <p>Bo City, BC 10001</p>
+                        <p class="mt-2">+232 79 222 22</p>
+                    </div>
+                </div>
+                
+                <!-- London -->
+                <div class="bg-gray-800 rounded-xl p-6 text-center card-hover">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Kenama City</h3>
+                    <p class="text-gray-400 mb-4">Eastern Office</p>
+                    <div class="text-gray-300 text-sm">
+                        <p>7 Hassan Street</p>
+                        <p>Kenema, SL EC2A 4NE</p>
+                        <p class="mt-2">+232 32 560 002</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center logo-hover cursor-pointer">
+                        <div class="sierra-leone-flag"></div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-blue-400 mr-2"></i>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold gradient-text">SLCHB</span>
+                            <span class="text-xs text-gray-400">Sierra Leone Creators Hub</span>
+                        </div>
+                    </div>
+                </div>
+                    <p class="text-gray-400 mt-4">
+                        Protecting intellectual property rights with cutting-edge blockchain technology.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Platform</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/projects.html" class="hover:text-purple-400">Projects</a></li>
+                        <li><a href="/creators.html" class="hover:text-purple-400">Creators</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Security</a></li>
+                        <li><a href="#" class="hover:text-purple-400">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="/about.html" class="hover:text-purple-400">About</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Blog</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Careers</a></li>
+                        <li><a href="/contact.html" class="hover:text-purple-400">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-purple-400">Help Center</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-purple-400">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 IPR Guard. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // FAQ Toggle functionality
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    content.classList.add('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+        
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            
+            // Simulate form submission
+            alert('Thank you for your message! We will get back to you within 24 hours.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
