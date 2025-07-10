@@ -586,9 +586,11 @@
                 'login': '/login.html',
                 'register': '/register.html'
             };
-            
+
             if (pages[pageName]) {
                 window.location.href = pages[pageName];
+            } else {
+                console.warn(`Page "${pageName}" not found.`);
             }
         }
         
