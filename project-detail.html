@@ -622,6 +622,28 @@
                 reportModal.classList.remove('show');
             }
         });
+
+                // Page navigation system
+        function loadPage(pageName) {
+            const pages = {
+                'about': '/about.html',
+                'projects': '/projects.html',
+                'project-detail': '/project-detail.html',
+                'creators': '/creators.html',
+                'creator-profile': '/creator-profile.html',
+                'creator-dashboard': '/creator-dashboard.html',
+                'admin-dashboard': '/admin-dashboard.html',
+                'contact': '/contact.html',
+                'login': '/login.html',
+                'register': '/register.html'
+            };
+
+            if (pages[pageName]) {
+                window.location.href = pages[pageName];
+            } else {
+                console.warn(`Page "${pageName}" not found.`);
+            }
+        }
     </script>
 </body>
 </html>
